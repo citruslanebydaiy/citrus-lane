@@ -60,7 +60,7 @@
     <div class="kad">
       <div class="logo">🍊</div>
       <h1 class="tengah nama-kedai">Citrus Lane</h1>
-      <p class="kecil tengah" style="margin:0">Kumpul 10 cop, dapat 1 air percuma</p>
+      <p class="kecil tengah" style="margin:0">1 air = 1 cop. Kumpul 10 cop, dapat 1 air percuma</p>
 
       <div class="tab">
         <button id="tab-login" class="aktif" type="button">Log masuk</button>
@@ -107,7 +107,7 @@
 
     <div class="kad" id="k-blok-request">
       <h2>Minta cop baru</h2>
-      <p class="kecil" style="margin:0">Masukkan ID pembelian yang diberi semasa anda order.</p>
+      <p class="kecil" style="margin:0">Masukkan ID pembelian yang diberi semasa anda order. Setiap air dalam order = 1 cop.</p>
       <label for="k-order">ID pembelian</label>
       <input id="k-order" type="text" inputmode="numeric" placeholder="Contoh: 1024">
       <button id="k-btn-request" type="button">Hantar request</button>
@@ -211,17 +211,19 @@ function paparKad(p) {
   $('k-grid').innerHTML = html;
 
   const penuh = p.cop >= p.copPenuh;
-  $('k-kira').textContent = penuh ? p.cop + '/' + p.copPenuh + ' cop · Kad penuh!' : p.cop + '/' + p.copPenuh + ' cop · Baki ' + (p.copPenuh - p.cop) + ' lagi!';
+  const lebih = p.cop - p.copPenuh;
+  $('k-kira').textContent = penuh
+    ? p.copPenuh + '/' + p.copPenuh + ' cop · Kad penuh!' + (lebih > 0 ? ' (+' + lebih + ' cop untuk kad seterusnya)' : '')
+    : p.cop + '/' + p.copPenuh + ' cop · Baki ' + (p.copPenuh - p.cop) + ' lagi!';
   $('k-luput').innerHTML = p.luput
     ? '⏳ Kitaran tamat <b>' + esc(p.luput) + '</b> (' + p.hariLagi + ' hari lagi)'
     : 'Had masa: ' + p.bulanKitaran + ' bulan setiap kitaran, bermula dari cop pertama.';
 
   let nota = '';
-  if (p.bilPendingCop) nota += '<div class="nota kuning">⏳ ' + p.bilPendingCop + ' request cop menunggu approval owner.</div>';
+  if (p.bilPendingCop) nota += '<div class="nota kuning">⏳ ' + p.copPending + ' cop (' + p.bilPendingCop + ' request) menunggu approval owner.</div>';
   if (p.pendingRedeem) nota += '<div class="nota hijau">🎁 Request air percuma dihantar. Tunjuk skrin ini di kaunter.</div>';
   $('k-nota').innerHTML = nota ? '<div style="margin-bottom:14px">' + nota + '</div>' : '';
 
-  $('k-blok-request').classList.toggle('tersembunyi', penuh);
   $('k-blok-redeem').classList.toggle('tersembunyi', !penuh || p.pendingRedeem);
 
   const label = { pending: 'Menunggu', approved: 'Lulus', rejected: 'Ditolak' };
