@@ -4,51 +4,111 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f07c1e">
+<link rel="icon" href="logo.jpeg">
+<link rel="apple-touch-icon" href="logo.jpeg">
 <title>Citrus Lane · Kad Ganjaran</title>
 <style>
   :root {
-    --oren: #f07c1e; --oren-gelap: #c95f0c; --oren-lembut: #fff1e3;
+    --oren: #f07c1e; --oren-gelap: #c95f0c; --oren-lembut: #fff1e3; --kuning-limau: #ffc93c;
     --limau: #6b9b1e; --limau-lembut: #eef6e0;
-    --latar: #fbf8f3; --kad: #fff; --teks: #2a2520; --lembut: #7c7268; --garis: #ece4da;
+    --latar: #fdf8f1; --kad: #fff; --teks: #2a2520; --lembut: #7c7268; --garis: #efe5d8;
     --merah: #c0392b; --kuning: #fff6d6;
   }
-  * { box-sizing: border-box; }
-  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--latar); color: var(--teks); font-size: 16px; line-height: 1.5; }
-  .wrap { max-width: 440px; margin: 0 auto; padding: 22px 16px 48px; }
-  .kad { background: var(--kad); border: 1px solid var(--garis); border-radius: 18px; padding: 18px; margin-bottom: 14px; }
-  h1 { font-size: 22px; margin: 0; } h2 { font-size: 17px; margin: 0 0 4px; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--teks); font-size: 16px; line-height: 1.5;
+    background:
+      radial-gradient(circle at 110% -10%, #ffe2c2 0 160px, transparent 161px),
+      radial-gradient(circle at -20% 30%, #fff0c9 0 120px, transparent 121px),
+      var(--latar);
+    background-attachment: fixed;
+  }
+  .wrap { max-width: 460px; margin: 0 auto; padding: 18px 16px 100px; }
+  .kad { background: var(--kad); border: 1px solid var(--garis); border-radius: 20px; padding: 18px; margin-bottom: 14px; box-shadow: 0 6px 18px rgba(201, 95, 12, .06); }
+  h1 { font-size: 22px; margin: 0; } h2 { font-size: 17px; margin: 0 0 4px; } h3 { font-size: 15px; color: var(--oren-gelap); margin: 16px 0 8px; }
   .kecil { font-size: 14px; color: var(--lembut); }
   .tengah { text-align: center; }
   label { display: block; font-size: 14px; color: var(--lembut); margin: 12px 0 4px; }
-  input { width: 100%; padding: 12px 14px; font: inherit; border: 1px solid var(--garis); border-radius: 12px; background: #fff; color: var(--teks); }
+  input { width: 100%; padding: 12px 14px; font: inherit; border: 1px solid var(--garis); border-radius: 14px; background: #fff; color: var(--teks); }
   input:focus { outline: 2px solid var(--oren); outline-offset: 1px; }
-  button { width: 100%; padding: 13px; font: inherit; font-weight: 600; border-radius: 12px; border: 1px solid var(--oren); background: var(--oren); color: #fff; cursor: pointer; margin-top: 14px; }
+  button { width: 100%; padding: 13px; font: inherit; font-weight: 700; border-radius: 14px; border: 1px solid var(--oren); background: var(--oren); color: #fff; cursor: pointer; margin-top: 14px; }
   button.lain { background: #fff; color: var(--oren-gelap); }
   button:disabled { opacity: .55; cursor: wait; }
   .pautan { background: none; border: none; color: var(--lembut); width: auto; padding: 4px; margin: 0; font-weight: 400; font-size: 14px; text-decoration: underline; }
-  .tab { display: flex; gap: 6px; background: #f1ebe3; padding: 4px; border-radius: 12px; margin: 16px 0 4px; }
-  .tab button { margin: 0; background: transparent; color: var(--lembut); border: none; }
-  .tab button.aktif { background: #fff; color: var(--teks); }
-  .logo { width: 64px; height: 64px; border-radius: 50%; background: var(--oren-lembut); display: grid; place-items: center; font-size: 34px; margin: 0 auto 8px; }
-  .atas { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-  .ganjaran { background: var(--oren); color: #fff; border: none; }
-  .ganjaran .kecil { color: #ffe6cf; }
-  .cop-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 16px 0 10px; }
-  .cop { aspect-ratio: 1; border-radius: 50%; border: 2px dashed rgba(255,255,255,.55); display: grid; place-items: center; font-size: 15px; font-weight: 700; color: rgba(255,255,255,.75); }
-  .cop.ada { border: 2px solid #fff; background: #fff; color: var(--oren-gelap); font-size: 22px; }
-  .cop.hadiah { font-size: 11px; }
-  .luput { background: rgba(255,255,255,.16); border-radius: 12px; padding: 8px 12px; font-size: 14px; margin-top: 10px; }
-  .nota { padding: 10px 12px; border-radius: 12px; font-size: 14px; margin-top: 10px; }
-  .nota.kuning { background: var(--kuning); color: #7a5800; }
-  .nota.hijau { background: var(--limau-lembut); color: var(--limau); }
-  .baris { display: flex; justify-content: space-between; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--garis); font-size: 14px; }
-  .baris:last-child { border-bottom: none; }
-  .st-approved { color: var(--limau); font-weight: 600; }
-  .st-pending { color: #a07000; font-weight: 600; }
-  .st-rejected { color: var(--merah); font-weight: 600; }
   .tersembunyi { display: none !important; }
   .kosong { color: var(--lembut); font-size: 14px; padding: 6px 0; }
-  #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); max-width: 90%; background: var(--teks); color: #fff; padding: 12px 16px; border-radius: 12px; font-size: 14px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 10; }
+
+  /* Logo */
+  .logo { width: 48px; height: 48px; border-radius: 50%; background: var(--oren-lembut); display: grid; place-items: center; font-size: 24px; overflow: hidden; flex-shrink: 0; border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+  .logo img { width: 100%; height: 100%; object-fit: cover; }
+  .logo.besar { width: 112px; height: 112px; font-size: 56px; margin: -70px auto 10px; border-width: 5px; }
+
+  /* Halaman masuk */
+  .sambutan { background: linear-gradient(140deg, #ff9a3c, var(--oren) 55%, #e8620c); border-radius: 28px; height: 150px; position: relative; overflow: hidden; margin-bottom: 0; }
+  .sambutan::before, .sambutan::after { content: ''; position: absolute; border-radius: 50%; border: 10px solid rgba(255,255,255,.18); }
+  .sambutan::before { width: 160px; height: 160px; right: -40px; top: -50px; }
+  .sambutan::after { width: 90px; height: 90px; left: 20px; bottom: -30px; border-color: rgba(255,214,90,.35); }
+  .masuk { margin-top: -20px; position: relative; padding-top: 80px; }
+  .tab { display: flex; gap: 6px; background: #f6efe6; padding: 4px; border-radius: 14px; margin: 16px 0 4px; }
+  .tab button { margin: 0; background: transparent; color: var(--lembut); border: none; padding: 10px; }
+  .tab button.aktif { background: #fff; color: var(--teks); box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+  .janji { display: flex; justify-content: space-around; margin-top: 14px; }
+  .janji div { text-align: center; font-size: 12px; color: var(--lembut); }
+  .janji b { display: block; font-size: 22px; }
+
+  /* Header aplikasi */
+  .atas { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .jenama { display: flex; align-items: center; gap: 10px; }
+
+  /* Kad ganjaran */
+  .ganjaran { background: linear-gradient(150deg, #ff9a3c, var(--oren) 50%, #e8620c); color: #fff; border: none; position: relative; overflow: hidden; }
+  .ganjaran::after { content: ''; position: absolute; width: 180px; height: 180px; right: -60px; top: -60px; border-radius: 50%; border: 14px solid rgba(255,255,255,.12); }
+  .ganjaran .kecil { color: #ffe6cf; }
+  .cop-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 16px 0 12px; position: relative; z-index: 1; }
+  .cop { aspect-ratio: 1; border-radius: 50%; border: 2px dashed rgba(255,255,255,.6); display: grid; place-items: center; font-size: 14px; font-weight: 700; color: rgba(255,255,255,.85); }
+  .cop svg { width: 58%; height: 58%; }
+  .cop.ada { border: 2px solid #fff; background: #fff; color: var(--oren); animation: cap .35s ease-out; }
+  @keyframes cap { from { transform: scale(.6); } to { transform: scale(1); } }
+  .hadiah { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,.16); border: 2px dashed rgba(255,255,255,.7); border-radius: 16px; padding: 10px 12px; position: relative; z-index: 1; }
+  .hadiah .no { width: 48px; height: 48px; border-radius: 50%; background: var(--kuning-limau); color: #7a4300; display: grid; place-items: center; font-weight: 800; font-size: 18px; flex-shrink: 0; }
+  .hadiah.sedia { background: #fff; color: var(--oren-gelap); border-style: solid; animation: denyut 1.6s infinite; }
+  .hadiah.sedia .kecil { color: var(--oren-gelap); }
+  @keyframes denyut { 50% { transform: scale(1.03); } }
+  .luput { background: rgba(255,255,255,.16); border-radius: 12px; padding: 8px 12px; font-size: 13px; margin-top: 10px; position: relative; z-index: 1; }
+  .nota { padding: 10px 12px; border-radius: 14px; font-size: 14px; margin-bottom: 10px; }
+  .nota.kuning { background: var(--kuning); color: #7a5800; }
+  .nota.hijau { background: var(--limau-lembut); color: var(--limau); }
+  .baris { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--garis); font-size: 14px; }
+  .baris:last-child { border-bottom: none; }
+  .st-approved { color: var(--limau); font-weight: 600; } .st-pending { color: #a07000; font-weight: 600; } .st-rejected { color: var(--merah); font-weight: 600; } .st-batal { color: var(--lembut); font-weight: 600; }
+
+  /* Order */
+  .chips { display: flex; gap: 6px; overflow-x: auto; padding: 2px 0 8px; position: sticky; top: 0; background: var(--latar); z-index: 3; }
+  .chips button { width: auto; margin: 0; background: #fff; color: var(--teks); border: 1px solid var(--garis); font-weight: 600; font-size: 14px; padding: 8px 14px; white-space: nowrap; border-radius: 999px; }
+  .item { display: flex; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--garis); }
+  .item:last-child { border-bottom: none; }
+  .item .gb { width: 72px; height: 72px; border-radius: 16px; background: var(--oren-lembut); display: grid; place-items: center; font-size: 34px; overflow: hidden; flex-shrink: 0; }
+  .item .gb img { width: 100%; height: 100%; object-fit: cover; }
+  .item .isi { flex: 1; min-width: 0; }
+  .item .hg { color: var(--oren-gelap); font-weight: 700; font-size: 15px; }
+  .qty { display: flex; align-items: center; gap: 8px; }
+  .qty button { width: 34px; height: 34px; padding: 0; margin: 0; border-radius: 50%; font-size: 18px; }
+  .bar-troli { position: fixed; left: 0; right: 0; bottom: 64px; display: flex; justify-content: center; padding: 0 16px; z-index: 6; }
+  .bar-troli button { max-width: 428px; margin: 0; display: flex; justify-content: space-between; box-shadow: 0 8px 20px rgba(201,95,12,.35); }
+  .status-order { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 999px; }
+  .status-order.active { background: var(--kuning); color: #8a6100; }
+  .status-order.done { background: var(--limau-lembut); color: var(--limau); }
+  .berjaya { text-align: center; background: var(--limau-lembut); border-color: #cfe3ad; }
+  .berjaya .id { font-size: 42px; font-weight: 800; color: var(--limau); }
+
+  /* Navigasi bawah */
+  nav.bawah { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--garis); display: flex; justify-content: center; padding-bottom: env(safe-area-inset-bottom); z-index: 5; }
+  nav.bawah .dalam { display: flex; width: 100%; max-width: 460px; }
+  nav.bawah button { flex: 1; background: none; border: none; color: var(--lembut); font-weight: 600; font-size: 12px; padding: 8px 2px 10px; border-radius: 0; margin: 0; }
+  nav.bawah button .ik { display: block; font-size: 22px; }
+  nav.bawah button.aktif { color: var(--oren-gelap); }
+
+  #toast { position: fixed; left: 50%; bottom: 130px; transform: translateX(-50%); max-width: 90%; background: var(--teks); color: #fff; padding: 12px 16px; border-radius: 12px; font-size: 14px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 10; }
   #toast.tunjuk { opacity: 1; } #toast.ralat { background: var(--merah); }
 </style>
 </head>
@@ -57,14 +117,20 @@
 
   <!-- ================= SIGN IN / LOG IN ================= -->
   <section id="v-auth" class="tersembunyi">
-    <div class="kad">
-      <div class="logo">🍊</div>
+    <div class="sambutan"></div>
+    <div class="kad masuk">
+      <div class="logo besar"><img src="logo.jpeg" alt="Citrus Lane" onerror="this.replaceWith('🍊')"></div>
       <h1 class="tengah nama-kedai">Citrus Lane</h1>
-      <p class="kecil tengah" style="margin:0">1 air = 1 cop. Kumpul 10 cop, dapat 1 air percuma</p>
+      <p class="kecil tengah" style="margin:0">Fresh citrus, setiap hari 🍊🍋</p>
+      <div class="janji">
+        <div><b>10</b>cawan dibeli</div>
+        <div><b>+1</b><span class="air-percuma">Orange Original</span> percuma</div>
+        <div><b>🛒</b>order online</div>
+      </div>
 
       <div class="tab">
         <button id="tab-login" class="aktif" type="button">Log masuk</button>
-        <button id="tab-daftar" type="button">Daftar</button>
+        <button id="tab-daftar" type="button">Daftar ahli</button>
       </div>
 
       <form id="f-login">
@@ -82,50 +148,100 @@
         <input id="d-tel" type="tel" inputmode="numeric" placeholder="0123456789" autocomplete="tel" required>
         <label for="d-pin">Cipta PIN (4 hingga 6 nombor)</label>
         <input id="d-pin" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" required>
-        <button type="submit">Daftar</button>
+        <button type="submit">Daftar sekarang</button>
       </form>
     </div>
   </section>
 
-  <!-- ================= KAD GANJARAN ================= -->
-  <section id="v-kad" class="tersembunyi">
+  <!-- ================= APLIKASI (selepas log masuk) ================= -->
+  <section id="v-app" class="tersembunyi">
     <div class="atas">
-      <div><p class="kecil" style="margin:0">Hai,</p><h1 id="k-nama">-</h1></div>
+      <div class="jenama">
+        <div class="logo"><img src="logo.jpeg" alt="Citrus Lane" onerror="this.replaceWith('🍊')"></div>
+        <div><div class="kecil" style="line-height:1.2">Hai,</div><h1 id="k-nama" style="font-size:20px">-</h1></div>
+      </div>
       <button class="pautan" type="button" onclick="logKeluar()">Log keluar</button>
     </div>
 
-    <div class="kad ganjaran">
-      <div class="atas" style="margin:0">
-        <h2 class="nama-kedai">Citrus Lane</h2>
-        <span class="kecil" id="k-tajuk">10 cop = 1 percuma</span>
+    <!-- ---------- TAB KAD ---------- -->
+    <div id="tab-kad">
+      <div class="kad ganjaran">
+        <div style="display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1">
+          <h2 class="nama-kedai" style="margin:0">Citrus Lane</h2>
+          <span class="kecil">Kad ganjaran</span>
+        </div>
+        <div class="cop-grid" id="k-grid"></div>
+        <div class="hadiah" id="k-hadiah">
+          <div class="no">11</div>
+          <div><b>Cawan ke-11 PERCUMA</b><div class="kecil"><span class="air-percuma">Orange Original</span> 🍊</div></div>
+        </div>
+        <div class="tengah" style="font-weight:700;margin-top:12px;position:relative;z-index:1" id="k-kira">0/10 cawan</div>
+        <div class="luput tengah" id="k-luput"></div>
       </div>
-      <div class="cop-grid" id="k-grid"></div>
-      <div class="tengah" style="font-weight:600" id="k-kira">0/10 cop</div>
-      <div class="luput tengah" id="k-luput"></div>
-    </div>
-    <div id="k-nota"></div>
+      <div id="k-nota"></div>
 
-    <div class="kad" id="k-blok-request">
-      <h2>Minta cop baru</h2>
-      <p class="kecil" style="margin:0">Masukkan ID pembelian yang diberi semasa anda order. Setiap air dalam order = 1 cop.</p>
-      <label for="k-order">ID pembelian</label>
-      <input id="k-order" type="text" inputmode="numeric" placeholder="Contoh: 1024">
-      <button id="k-btn-request" type="button">Hantar request</button>
+      <div class="kad tersembunyi" id="k-blok-redeem" style="border:2px solid var(--oren)">
+        <h2>🎉 Tahniah! 10 cawan lengkap</h2>
+        <p class="kecil" style="margin:0">Tekan butang di bawah dan tunjuk skrin ini kepada staf untuk dapatkan <b class="air-percuma">Orange Original</b> percuma.</p>
+        <button id="k-btn-redeem" type="button">Tuntut <span class="air-percuma">Orange Original</span> percuma</button>
+      </div>
+
+      <div class="kad" id="k-blok-request">
+        <h2>Minta cop (beli di kaunter)</h2>
+        <p class="kecil" style="margin:0">Masukkan ID pembelian yang diberi semasa order. Setiap cawan = 1 cop.</p>
+        <label for="k-order">ID pembelian</label>
+        <input id="k-order" type="text" inputmode="numeric" placeholder="Contoh: 1024">
+        <button id="k-btn-request" type="button">Hantar request</button>
+        <p class="kecil" style="margin:10px 0 0">💡 Order melalui website? Cop masuk automatik bila order siap.</p>
+      </div>
+
+      <div class="kad">
+        <h2>Sejarah</h2>
+        <div id="k-sejarah"></div>
+      </div>
+      <button class="lain" type="button" onclick="muatKad()">Muat semula</button>
     </div>
 
-    <div class="kad tersembunyi" id="k-blok-redeem">
-      <h2>Tahniah! Kad anda penuh 🎉</h2>
-      <p class="kecil" style="margin:0">Tekan butang di bawah dan tunjuk skrin ini kepada staf untuk dapatkan air percuma.</p>
-      <button id="k-btn-redeem" type="button">Tuntut air percuma</button>
-    </div>
+    <!-- ---------- TAB ORDER ---------- -->
+    <div id="tab-order" class="tersembunyi">
+      <div id="o-berjaya" class="kad berjaya tersembunyi">
+        <div class="kecil">Order diterima!</div>
+        <div class="id" id="o-id">#0000</div>
+        <div id="o-ringkas" style="font-weight:700"></div>
+        <p class="kecil">Bayar di kaunter semasa ambil air. Cop akan masuk automatik bila order siap 🍊</p>
+        <button type="button" onclick="orderLagi()">Order lagi</button>
+      </div>
 
-    <div class="kad">
-      <h2>Sejarah</h2>
-      <div id="k-sejarah"></div>
+      <div id="o-saya"></div>
+
+      <div id="o-tutup" class="kad tengah tersembunyi"><h2>Order online ditutup</h2><p class="kecil">Sila order di kaunter buat masa ini.</p></div>
+
+      <div id="o-borang">
+        <div class="chips" id="o-kat"></div>
+        <div id="o-menu"></div>
+        <div class="kad" id="o-troli-kad">
+          <h2>🛒 Order anda</h2>
+          <div id="o-troli"></div>
+          <label for="o-nota">Nota (pilihan)</label>
+          <input id="o-nota" placeholder="Contoh: kurang ais, kurang manis" maxlength="120">
+          <div style="display:flex;justify-content:space-between;font-size:20px;font-weight:800;margin-top:12px"><span>Jumlah</span><span id="o-jumlah">RM0.00</span></div>
+          <p class="kecil" style="margin:4px 0 0">Bayar di kaunter (cash atau card) semasa ambil air.</p>
+          <button type="button" id="o-hantar">Hantar order</button>
+        </div>
+      </div>
     </div>
-    <button class="lain" type="button" onclick="muatKad()">Muat semula</button>
   </section>
 </div>
+
+<div class="bar-troli tersembunyi" id="bar-troli">
+  <button type="button" onclick="document.getElementById('o-troli-kad').scrollIntoView({behavior:'smooth'})"><span id="bar-kira">0 cawan</span><span id="bar-jumlah">RM0.00 · Lihat order ›</span></button>
+</div>
+
+<nav class="bawah tersembunyi" id="nav"><div class="dalam">
+  <button type="button" data-tab="kad" class="aktif"><span class="ik">💳</span>Kad ganjaran</button>
+  <button type="button" data-tab="order"><span class="ik">🛒</span>Order</button>
+</div></nav>
+
 <div id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -135,7 +251,10 @@
 const API_URL = 'https://script.google.com/macros/s/AKfycbzikkvszSYQqCE9f3AtY2LzasFKV8rH_sxAF9VCQ36rC3tgmgc3pGeKCiPLzX0zJzhg/exec';
 
 const $ = id => document.getElementById(id);
+const RM = n => 'RM' + Number(n || 0).toFixed(2);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const IKON_KAT = k => /orange|oren/i.test(k) ? '🍊' : /lemon|lime|limau/i.test(k) ? '🍋' : /fruit|buah/i.test(k) ? '🍓' : '🥤';
+const CAWAN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6h14l-1.6 14.2a2 2 0 0 1-2 1.8H8.6a2 2 0 0 1-2-1.8z"/><path d="M4 6h16"/><path d="M12 6l2-4"/><path d="M6.2 11h11.6"/></svg>';
 const simpan = {
   get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
@@ -160,7 +279,28 @@ async function sibuk(btn, kerja) {
   if (btn) btn.disabled = true;
   try { return await kerja(); } catch (e) { toast(e.message, true); } finally { if (btn) btn.disabled = false; }
 }
-function tunjuk(id) { ['v-auth', 'v-kad'].forEach(v => $(v).classList.toggle('tersembunyi', v !== id)); window.scrollTo(0, 0); }
+function setAirPercuma(n) { if (n) document.querySelectorAll('.air-percuma').forEach(el => el.textContent = n); }
+
+/* ---------- paparan ---------- */
+let tabSemasa = 'kad', pemasa = null;
+function masukApp() {
+  $('v-auth').classList.add('tersembunyi'); $('v-app').classList.remove('tersembunyi'); $('nav').classList.remove('tersembunyi');
+  tukarTabApp(tabSemasa);
+}
+function keluarApp() {
+  $('v-auth').classList.remove('tersembunyi'); $('v-app').classList.add('tersembunyi'); $('nav').classList.add('tersembunyi');
+  $('bar-troli').classList.add('tersembunyi'); clearInterval(pemasa);
+}
+function tukarTabApp(t) {
+  tabSemasa = t;
+  $('tab-kad').classList.toggle('tersembunyi', t !== 'kad');
+  $('tab-order').classList.toggle('tersembunyi', t !== 'order');
+  document.querySelectorAll('nav.bawah button').forEach(b => b.classList.toggle('aktif', b.dataset.tab === t));
+  window.scrollTo(0, 0);
+  if (t === 'order') muatMenu();
+  paparBarTroli();
+}
+document.querySelectorAll('nav.bawah button').forEach(b => b.onclick = () => tukarTabApp(b.dataset.tab));
 
 /* ---------- sign in / log in ---------- */
 $('tab-login').onclick = () => tukarTab(true);
@@ -169,16 +309,14 @@ function tukarTab(login) {
   $('tab-login').classList.toggle('aktif', login); $('tab-daftar').classList.toggle('aktif', !login);
   $('f-login').classList.toggle('tersembunyi', !login); $('f-daftar').classList.toggle('tersembunyi', login);
 }
-
 $('f-login').onsubmit = e => {
   e.preventDefault();
   sibuk(e.submitter, async () => {
     const r = await api('login', { telefon: $('l-tel').value, pin: $('l-pin').value });
     simpan.set('token', r.token); $('l-pin').value = '';
-    tunjuk('v-kad'); paparKad(r.profil);
+    masukApp(); paparKad(r.profil);
   });
 };
-
 $('f-daftar').onsubmit = e => {
   e.preventDefault();
   if (!/^\d{4,6}$/.test($('d-pin').value)) { toast('PIN mesti 4 hingga 6 nombor.', true); return; }
@@ -186,13 +324,12 @@ $('f-daftar').onsubmit = e => {
     const r = await api('daftar', { nama: $('d-nama').value, telefon: $('d-tel').value, pin: $('d-pin').value });
     simpan.set('token', r.token); $('d-pin').value = '';
     toast('Pendaftaran berjaya. Selamat datang ke Citrus Lane!');
-    tunjuk('v-kad'); paparKad(r.profil);
+    masukApp(); paparKad(r.profil);
   });
 };
+function logKeluar() { simpan.buang('token'); keluarApp(); }
 
-function logKeluar() { simpan.buang('token'); tunjuk('v-auth'); }
-
-/* ---------- kad ganjaran ---------- */
+/* ================= KAD GANJARAN ================= */
 async function muatKad() {
   try { paparKad((await api('status', { token: simpan.get('token') })).profil); }
   catch (e) { toast(e.message, true); if (/Sesi tamat/.test(e.message)) logKeluar(); }
@@ -200,36 +337,42 @@ async function muatKad() {
 
 function paparKad(p) {
   document.querySelectorAll('.nama-kedai').forEach(el => el.textContent = p.namaKedai);
+  setAirPercuma(p.airPercuma);
   $('k-nama').textContent = p.nama;
-  $('k-tajuk').textContent = p.copPenuh + ' cop = 1 percuma';
 
   let html = '';
   for (let i = 0; i < p.copPenuh; i++) {
-    const ada = i < p.cop, akhir = i === p.copPenuh - 1;
-    html += '<div class="cop' + (ada ? ' ada' : '') + (akhir && !ada ? ' hadiah' : '') + '">' + (ada ? '🍊' : (akhir ? 'FREE' : (i + 1))) + '</div>';
+    html += i < p.cop ? '<div class="cop ada" title="Cawan ' + (i + 1) + '">' + CAWAN + '</div>' : '<div class="cop">' + (i + 1) + '</div>';
   }
   $('k-grid').innerHTML = html;
 
-  const penuh = p.cop >= p.copPenuh;
-  const lebih = p.cop - p.copPenuh;
+  const penuh = p.cop >= p.copPenuh, lebih = p.cop - p.copPenuh;
+  $('k-hadiah').classList.toggle('sedia', penuh);
   $('k-kira').textContent = penuh
-    ? p.copPenuh + '/' + p.copPenuh + ' cop · Kad penuh!' + (lebih > 0 ? ' (+' + lebih + ' cop untuk kad seterusnya)' : '')
-    : p.cop + '/' + p.copPenuh + ' cop · Baki ' + (p.copPenuh - p.cop) + ' lagi!';
+    ? p.copPenuh + '/' + p.copPenuh + ' cawan · ' + p.airPercuma + ' percuma menanti!' + (lebih > 0 ? ' (+' + lebih + ' cawan untuk kad seterusnya)' : '')
+    : p.cop + '/' + p.copPenuh + ' cawan · ' + (p.copPenuh - p.cop) + ' lagi untuk ' + p.airPercuma + ' percuma';
   $('k-luput').innerHTML = p.luput
     ? '⏳ Kitaran tamat <b>' + esc(p.luput) + '</b> (' + p.hariLagi + ' hari lagi)'
-    : 'Had masa: ' + p.bulanKitaran + ' bulan setiap kitaran, bermula dari cop pertama.';
+    : 'Had masa ' + p.bulanKitaran + ' bulan setiap kitaran, bermula dari cop pertama.';
 
   let nota = '';
-  if (p.bilPendingCop) nota += '<div class="nota kuning">⏳ ' + p.copPending + ' cop (' + p.bilPendingCop + ' request) menunggu approval owner.</div>';
-  if (p.pendingRedeem) nota += '<div class="nota hijau">🎁 Request air percuma dihantar. Tunjuk skrin ini di kaunter.</div>';
-  $('k-nota').innerHTML = nota ? '<div style="margin-bottom:14px">' + nota + '</div>' : '';
+  if (p.bilPendingCop) nota += '<div class="nota kuning">⏳ ' + p.copPending + ' cop (' + p.bilPendingCop + ' request) menunggu approval.</div>';
+  if (p.pendingRedeem) nota += '<div class="nota hijau">🎁 Request ' + esc(p.airPercuma) + ' percuma dihantar. Tunjuk skrin ini di kaunter.</div>';
+  const aktif = (p.orderSaya || []).filter(o => o.status === 'active');
+  if (aktif.length) nota += '<div class="nota kuning">🛒 ' + aktif.length + ' order online sedang disediakan (' + aktif.map(o => '#' + o.id).join(', ') + ').</div>';
+  $('k-nota').innerHTML = nota;
 
   $('k-blok-redeem').classList.toggle('tersembunyi', !penuh || p.pendingRedeem);
 
-  const label = { pending: 'Menunggu', approved: 'Lulus', rejected: 'Ditolak' };
+  const label = { pending: 'Menunggu', approved: 'Lulus', rejected: 'Ditolak', batal: 'Dibatalkan' };
   $('k-sejarah').innerHTML = p.sejarah.length
     ? p.sejarah.map(s => '<div class="baris"><span>' + esc(s.jenis) + ' · <span class="kecil">' + esc(s.masa) + '</span></span><span class="st-' + esc(s.status) + '">' + esc(label[s.status] || s.status) + '</span></div>').join('')
-    : '<p class="kosong">Belum ada rekod. Order air dan masukkan ID pembelian untuk cop pertama!</p>';
+    : '<p class="kosong">Belum ada rekod. Beli air dan kumpul cop pertama anda!</p>';
+
+  paparOrderSaya(p.orderSaya || []);
+  // Semak status order online setiap 20 saat jika ada order yang belum siap
+  clearInterval(pemasa);
+  if (aktif.length) pemasa = setInterval(() => { if (!document.hidden) muatKad(); }, 20000);
 }
 
 $('k-btn-request').onclick = e => sibuk(e.currentTarget, async () => {
@@ -245,7 +388,108 @@ $('k-btn-redeem').onclick = e => sibuk(e.currentTarget, async () => {
   toast(r.mesej); paparKad(r.profil);
 });
 
-if (simpan.get('token')) { tunjuk('v-kad'); muatKad(); } else tunjuk('v-auth');
+/* ================= ORDER ONLINE ================= */
+let MENU = [], KATEGORI = [], GAMBAR = {}, troli = {};
+
+async function muatGambar(menu) {
+  let cache = {};
+  try { cache = JSON.parse(localStorage.getItem('gambarMenu') || '{}'); } catch (e) {}
+  const perlu = menu.filter(m => m.gv && (!cache[m.id] || cache[m.id].v !== m.gv)).map(m => m.id);
+  for (let i = 0; i < perlu.length; i += 15) {
+    const r = await api('gambar', { ids: perlu.slice(i, i + 15) });
+    r.gambar.forEach(g => cache[g.id] = { v: g.gv, d: g.d });
+  }
+  const ids = new Set(menu.map(m => m.id));
+  Object.keys(cache).forEach(k => { if (!ids.has(k)) delete cache[k]; });
+  try { localStorage.setItem('gambarMenu', JSON.stringify(cache)); } catch (e) {}
+  GAMBAR = {};
+  menu.forEach(m => { if (m.gv && cache[m.id]) GAMBAR[m.id] = cache[m.id].d; });
+}
+
+async function muatMenu() {
+  try {
+    const r = await api('menu');
+    setAirPercuma(r.airPercuma);
+    $('o-tutup').classList.toggle('tersembunyi', r.orderOnline);
+    $('o-borang').classList.toggle('tersembunyi', !r.orderOnline || !$('o-berjaya').classList.contains('tersembunyi'));
+    MENU = r.menu; KATEGORI = r.kategori;
+    Object.keys(troli).forEach(id => { if (!MENU.find(m => m.id === id)) delete troli[id]; });
+    paparMenu();
+    await muatGambar(MENU);
+    paparMenu();
+  } catch (e) { toast(e.message, true); }
+}
+
+function paparMenu() {
+  const kump = KATEGORI.map(k => ({ nama: k, items: MENU.filter(m => m.kategori === k) }));
+  const lain = MENU.filter(m => KATEGORI.indexOf(m.kategori) === -1);
+  if (lain.length) kump.push({ nama: 'Lain-lain', items: lain });
+  const ada = kump.filter(k => k.items.length);
+  $('o-kat').innerHTML = ada.map((k, i) => '<button type="button" data-lompat="okat-' + i + '">' + IKON_KAT(k.nama) + ' ' + esc(k.nama) + '</button>').join('');
+  $('o-menu').innerHTML = ada.map((k, i) =>
+    '<div class="kad" id="okat-' + i + '" style="scroll-margin-top:56px"><h2>' + IKON_KAT(k.nama) + ' ' + esc(k.nama) + '</h2>' + k.items.map(m =>
+      '<div class="item"><div class="gb">' + (GAMBAR[m.id] ? '<img src="' + GAMBAR[m.id] + '" alt="">' : IKON_KAT(m.kategori)) + '</div>' +
+      '<div class="isi"><b>' + esc(m.nama) + '</b><div class="hg">' + RM(m.harga) + '</div></div>' +
+      (troli[m.id]
+        ? '<div class="qty"><button type="button" class="lain" data-kurang="' + esc(m.id) + '" aria-label="Kurang">−</button><b>' + troli[m.id] + '</b><button type="button" data-tambah="' + esc(m.id) + '" aria-label="Tambah">+</button></div>'
+        : '<div class="qty"><button type="button" data-tambah="' + esc(m.id) + '" aria-label="Tambah ' + esc(m.nama) + '">+</button></div>') +
+      '</div>').join('') + '</div>'
+  ).join('') || '<div class="kad kosong">Menu belum tersedia.</div>';
+  paparTroli();
+}
+
+function paparTroli() {
+  const baris = MENU.filter(m => troli[m.id]);
+  $('o-troli').innerHTML = baris.length
+    ? baris.map(m => '<div class="baris"><span>' + troli[m.id] + '× ' + esc(m.nama) + '</span><span>' + RM(m.harga * troli[m.id]) + '</span></div>').join('')
+    : '<p class="kosong">Tekan + pada air yang anda mahu.</p>';
+  $('o-jumlah').textContent = RM(baris.reduce((s, m) => s + m.harga * troli[m.id], 0));
+  $('o-hantar').disabled = !baris.length;
+  paparBarTroli();
+}
+
+function paparBarTroli() {
+  const cawan = Object.values(troli).reduce((s, n) => s + n, 0);
+  const jumlah = MENU.reduce((s, m) => s + (troli[m.id] || 0) * m.harga, 0);
+  $('bar-troli').classList.toggle('tersembunyi', !(tabSemasa === 'order' && cawan > 0 && $('o-berjaya').classList.contains('tersembunyi')));
+  $('bar-kira').textContent = '🛒 ' + cawan + ' cawan';
+  $('bar-jumlah').textContent = RM(jumlah) + ' · Lihat order ›';
+}
+
+$('o-hantar').onclick = e => sibuk(e.currentTarget, async () => {
+  const items = Object.keys(troli).map(id => ({ id: id, qty: troli[id] }));
+  const r = await api('orderOnline', { token: simpan.get('token'), items: items, nota: $('o-nota').value });
+  troli = {}; $('o-nota').value = '';
+  $('o-id').textContent = '#' + r.order.id;
+  $('o-ringkas').textContent = r.order.cup + ' cawan · ' + RM(r.order.jumlah);
+  $('o-berjaya').classList.remove('tersembunyi');
+  $('o-borang').classList.add('tersembunyi');
+  paparKad(r.profil); paparBarTroli();
+  window.scrollTo(0, 0);
+});
+
+function orderLagi() {
+  $('o-berjaya').classList.add('tersembunyi');
+  $('o-borang').classList.remove('tersembunyi');
+  paparMenu(); window.scrollTo(0, 0);
+}
+
+function paparOrderSaya(senarai) {
+  $('o-saya').innerHTML = senarai.length ? '<div class="kad"><h2>Order saya</h2>' + senarai.map(o =>
+    '<div class="baris"><div><b>#' + o.id + '</b> <span class="kecil">· ' + esc(o.masa) + '</span><div class="kecil">' + o.items.map(i => esc(i.qty + '× ' + i.nama)).join(', ') + '</div></div>' +
+    '<div style="text-align:right"><span class="status-order ' + o.status + '">' + (o.status === 'active' ? 'Disediakan' : 'Siap') + '</span><div class="kecil">' + RM(o.jumlah) + '</div></div></div>'
+  ).join('') + '</div>' : '';
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const d = b.dataset;
+  if (d.lompat) { const t = $(d.lompat); if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
+  if (d.tambah) { troli[d.tambah] = Math.min(20, (troli[d.tambah] || 0) + 1); paparMenu(); return; }
+  if (d.kurang) { troli[d.kurang] = (troli[d.kurang] || 0) - 1; if (troli[d.kurang] <= 0) delete troli[d.kurang]; paparMenu(); return; }
+});
+
+if (simpan.get('token')) { masukApp(); muatKad(); } else keluarApp();
 </script>
 </body>
 </html>
