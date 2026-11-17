@@ -449,7 +449,7 @@ async function muatLoyalty(senyap) {
 function paparLoyalty(r) {
   lencana(['n-b-loyalty'], r.pendingCop.length + r.pendingRedeem.length);
   $('ly-cop').innerHTML = r.pendingCop.length ? r.pendingCop.map(x =>
-    '<div class="baris" style="align-items:flex-start"><div><b>' + esc(x.nama) + ' (#' + x.orderId + ')</b> mohon 1 cop' +
+    '<div class="baris" style="align-items:flex-start"><div><b>' + esc(x.nama) + ' (#' + x.orderId + ')</b> mohon <b>' + x.bilCop + ' cop</b>' +
     '<div class="kecil">' + esc(x.telefon) + ' · kini ' + x.cop + '/' + r.copPenuh + ' cop</div>' +
     (x.order ? '<div class="kecil">Order: ' + esc(x.order.ringkas) + ' · ' + RM(x.order.jumlah) + ' · ' + esc(x.order.masa) + '</div>' : '<div class="kecil" style="color:var(--merah)">Order tidak dijumpai</div>') +
     '</div><div class="aksi"><button type="button" class="hijau mini" data-cop="' + esc(x.id) + '" data-k="approved">Approve</button>' +
