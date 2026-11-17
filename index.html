@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f07c1e">
+<title>Citrus Lane · Kad Ganjaran</title>
+<style>
+  :root {
+    --oren: #f07c1e; --oren-gelap: #c95f0c; --oren-lembut: #fff1e3;
+    --limau: #6b9b1e; --limau-lembut: #eef6e0;
+    --latar: #fbf8f3; --kad: #fff; --teks: #2a2520; --lembut: #7c7268; --garis: #ece4da;
+    --merah: #c0392b; --kuning: #fff6d6;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--latar); color: var(--teks); font-size: 16px; line-height: 1.5; }
+  .wrap { max-width: 440px; margin: 0 auto; padding: 22px 16px 48px; }
+  .kad { background: var(--kad); border: 1px solid var(--garis); border-radius: 18px; padding: 18px; margin-bottom: 14px; }
+  h1 { font-size: 22px; margin: 0; } h2 { font-size: 17px; margin: 0 0 4px; }
+  .kecil { font-size: 14px; color: var(--lembut); }
+  .tengah { text-align: center; }
+  label { display: block; font-size: 14px; color: var(--lembut); margin: 12px 0 4px; }
+  input { width: 100%; padding: 12px 14px; font: inherit; border: 1px solid var(--garis); border-radius: 12px; background: #fff; color: var(--teks); }
+  input:focus { outline: 2px solid var(--oren); outline-offset: 1px; }
+  button { width: 100%; padding: 13px; font: inherit; font-weight: 600; border-radius: 12px; border: 1px solid var(--oren); background: var(--oren); color: #fff; cursor: pointer; margin-top: 14px; }
+  button.lain { background: #fff; color: var(--oren-gelap); }
+  button:disabled { opacity: .55; cursor: wait; }
+  .pautan { background: none; border: none; color: var(--lembut); width: auto; padding: 4px; margin: 0; font-weight: 400; font-size: 14px; text-decoration: underline; }
+  .tab { display: flex; gap: 6px; background: #f1ebe3; padding: 4px; border-radius: 12px; margin: 16px 0 4px; }
+  .tab button { margin: 0; background: transparent; color: var(--lembut); border: none; }
+  .tab button.aktif { background: #fff; color: var(--teks); }
+  .logo { width: 64px; height: 64px; border-radius: 50%; background: var(--oren-lembut); display: grid; place-items: center; font-size: 34px; margin: 0 auto 8px; }
+  .atas { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .ganjaran { background: var(--oren); color: #fff; border: none; }
+  .ganjaran .kecil { color: #ffe6cf; }
+  .cop-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 16px 0 10px; }
+  .cop { aspect-ratio: 1; border-radius: 50%; border: 2px dashed rgba(255,255,255,.55); display: grid; place-items: center; font-size: 15px; font-weight: 700; color: rgba(255,255,255,.75); }
+  .cop.ada { border: 2px solid #fff; background: #fff; color: var(--oren-gelap); font-size: 22px; }
+  .cop.hadiah { font-size: 11px; }
+  .luput { background: rgba(255,255,255,.16); border-radius: 12px; padding: 8px 12px; font-size: 14px; margin-top: 10px; }
+  .nota { padding: 10px 12px; border-radius: 12px; font-size: 14px; margin-top: 10px; }
+  .nota.kuning { background: var(--kuning); color: #7a5800; }
+  .nota.hijau { background: var(--limau-lembut); color: var(--limau); }
+  .baris { display: flex; justify-content: space-between; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--garis); font-size: 14px; }
+  .baris:last-child { border-bottom: none; }
+  .st-approved { color: var(--limau); font-weight: 600; }
+  .st-pending { color: #a07000; font-weight: 600; }
+  .st-rejected { color: var(--merah); font-weight: 600; }
+  .tersembunyi { display: none !important; }
+  .kosong { color: var(--lembut); font-size: 14px; padding: 6px 0; }
+  #toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); max-width: 90%; background: var(--teks); color: #fff; padding: 12px 16px; border-radius: 12px; font-size: 14px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 10; }
+  #toast.tunjuk { opacity: 1; } #toast.ralat { background: var(--merah); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ================= SIGN IN / LOG IN ================= -->
+  <section id="v-auth" class="tersembunyi">
+    <div class="kad">
+      <div class="logo">🍊</div>
+      <h1 class="tengah nama-kedai">Citrus Lane</h1>
+      <p class="kecil tengah" style="margin:0">Kumpul 10 cop, dapat 1 air percuma</p>
+
+      <div class="tab">
+        <button id="tab-login" class="aktif" type="button">Log masuk</button>
+        <button id="tab-daftar" type="button">Daftar</button>
+      </div>
+
+      <form id="f-login">
+        <label for="l-tel">No. telefon</label>
+        <input id="l-tel" type="tel" inputmode="numeric" placeholder="0123456789" autocomplete="tel" required>
+        <label for="l-pin">PIN</label>
+        <input id="l-pin" type="password" inputmode="numeric" placeholder="4 hingga 6 nombor" autocomplete="current-password" required>
+        <button type="submit">Log masuk</button>
+      </form>
+
+      <form id="f-daftar" class="tersembunyi">
+        <label for="d-nama">Nama</label>
+        <input id="d-nama" type="text" placeholder="Ali" autocomplete="name" required>
+        <label for="d-tel">No. telefon</label>
+        <input id="d-tel" type="tel" inputmode="numeric" placeholder="0123456789" autocomplete="tel" required>
+        <label for="d-pin">Cipta PIN (4 hingga 6 nombor)</label>
+        <input id="d-pin" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" required>
+        <button type="submit">Daftar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ================= KAD GANJARAN ================= -->
+  <section id="v-kad" class="tersembunyi">
+    <div class="atas">
+      <div><p class="kecil" style="margin:0">Hai,</p><h1 id="k-nama">-</h1></div>
+      <button class="pautan" type="button" onclick="logKeluar()">Log keluar</button>
+    </div>
+
+    <div class="kad ganjaran">
+      <div class="atas" style="margin:0">
+        <h2 class="nama-kedai">Citrus Lane</h2>
+        <span class="kecil" id="k-tajuk">10 cop = 1 percuma</span>
+      </div>
+      <div class="cop-grid" id="k-grid"></div>
+      <div class="tengah" style="font-weight:600" id="k-kira">0/10 cop</div>
+      <div class="luput tengah" id="k-luput"></div>
+    </div>
+    <div id="k-nota"></div>
+
+    <div class="kad" id="k-blok-request">
+      <h2>Minta cop baru</h2>
+      <p class="kecil" style="margin:0">Masukkan ID pembelian yang diberi semasa anda order.</p>
+      <label for="k-order">ID pembelian</label>
+      <input id="k-order" type="text" inputmode="numeric" placeholder="Contoh: 1024">
+      <button id="k-btn-request" type="button">Hantar request</button>
+    </div>
+
+    <div class="kad tersembunyi" id="k-blok-redeem">
+      <h2>Tahniah! Kad anda penuh 🎉</h2>
+      <p class="kecil" style="margin:0">Tekan butang di bawah dan tunjuk skrin ini kepada staf untuk dapatkan air percuma.</p>
+      <button id="k-btn-redeem" type="button">Tuntut air percuma</button>
+    </div>
+
+    <div class="kad">
+      <h2>Sejarah</h2>
+      <div id="k-sejarah"></div>
+    </div>
+    <button class="lain" type="button" onclick="muatKad()">Muat semula</button>
+  </section>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =====================================================================
+ *  TAMPAL URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI (sama seperti owner.html)
+ * ===================================================================== */
+const API_URL = 'https://script.google.com/macros/s/AKfycbzikkvszSYQqCE9f3AtY2LzasFKV8rH_sxAF9VCQ36rC3tgmgc3pGeKCiPLzX0zJzhg/exec';
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const simpan = {
+  get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+  buang(k) { try { localStorage.removeItem(k); } catch (e) {} }
+};
+
+async function api(action, data) {
+  if (!API_URL || API_URL.indexOf('http') !== 0) throw new Error('API_URL belum diisi dalam index.html.');
+  let res;
+  try { res = await fetch(API_URL, { method: 'POST', body: JSON.stringify(Object.assign({ action: action }, data || {})) }); }
+  catch (e) { throw new Error('Tidak dapat sambung ke server. Semak internet anda.'); }
+  let j;
+  try { j = await res.json(); } catch (e) { throw new Error('Jawapan server tidak sah.'); }
+  if (!j.ok) throw new Error(j.error || 'Ralat tidak diketahui.');
+  return j;
+}
+function toast(m, ralat) {
+  const t = $('toast'); t.textContent = m; t.className = 'tunjuk' + (ralat ? ' ralat' : '');
+  clearTimeout(t._h); t._h = setTimeout(() => t.className = '', 3800);
+}
+async function sibuk(btn, kerja) {
+  if (btn) btn.disabled = true;
+  try { return await kerja(); } catch (e) { toast(e.message, true); } finally { if (btn) btn.disabled = false; }
+}
+function tunjuk(id) { ['v-auth', 'v-kad'].forEach(v => $(v).classList.toggle('tersembunyi', v !== id)); window.scrollTo(0, 0); }
+
+/* ---------- sign in / log in ---------- */
+$('tab-login').onclick = () => tukarTab(true);
+$('tab-daftar').onclick = () => tukarTab(false);
+function tukarTab(login) {
+  $('tab-login').classList.toggle('aktif', login); $('tab-daftar').classList.toggle('aktif', !login);
+  $('f-login').classList.toggle('tersembunyi', !login); $('f-daftar').classList.toggle('tersembunyi', login);
+}
+
+$('f-login').onsubmit = e => {
+  e.preventDefault();
+  sibuk(e.submitter, async () => {
+    const r = await api('login', { telefon: $('l-tel').value, pin: $('l-pin').value });
+    simpan.set('token', r.token); $('l-pin').value = '';
+    tunjuk('v-kad'); paparKad(r.profil);
+  });
+};
+
+$('f-daftar').onsubmit = e => {
+  e.preventDefault();
+  if (!/^\d{4,6}$/.test($('d-pin').value)) { toast('PIN mesti 4 hingga 6 nombor.', true); return; }
+  sibuk(e.submitter, async () => {
+    const r = await api('daftar', { nama: $('d-nama').value, telefon: $('d-tel').value, pin: $('d-pin').value });
+    simpan.set('token', r.token); $('d-pin').value = '';
+    toast('Pendaftaran berjaya. Selamat datang ke Citrus Lane!');
+    tunjuk('v-kad'); paparKad(r.profil);
+  });
+};
+
+function logKeluar() { simpan.buang('token'); tunjuk('v-auth'); }
+
+/* ---------- kad ganjaran ---------- */
+async function muatKad() {
+  try { paparKad((await api('status', { token: simpan.get('token') })).profil); }
+  catch (e) { toast(e.message, true); if (/Sesi tamat/.test(e.message)) logKeluar(); }
+}
+
+function paparKad(p) {
+  document.querySelectorAll('.nama-kedai').forEach(el => el.textContent = p.namaKedai);
+  $('k-nama').textContent = p.nama;
+  $('k-tajuk').textContent = p.copPenuh + ' cop = 1 percuma';
+
+  let html = '';
+  for (let i = 0; i < p.copPenuh; i++) {
+    const ada = i < p.cop, akhir = i === p.copPenuh - 1;
+    html += '<div class="cop' + (ada ? ' ada' : '') + (akhir && !ada ? ' hadiah' : '') + '">' + (ada ? '🍊' : (akhir ? 'FREE' : (i + 1))) + '</div>';
+  }
+  $('k-grid').innerHTML = html;
+
+  const penuh = p.cop >= p.copPenuh;
+  $('k-kira').textContent = penuh ? p.cop + '/' + p.copPenuh + ' cop · Kad penuh!' : p.cop + '/' + p.copPenuh + ' cop · Baki ' + (p.copPenuh - p.cop) + ' lagi!';
+  $('k-luput').innerHTML = p.luput
+    ? '⏳ Kitaran tamat <b>' + esc(p.luput) + '</b> (' + p.hariLagi + ' hari lagi)'
+    : 'Had masa: ' + p.bulanKitaran + ' bulan setiap kitaran, bermula dari cop pertama.';
+
+  let nota = '';
+  if (p.bilPendingCop) nota += '<div class="nota kuning">⏳ ' + p.bilPendingCop + ' request cop menunggu approval owner.</div>';
+  if (p.pendingRedeem) nota += '<div class="nota hijau">🎁 Request air percuma dihantar. Tunjuk skrin ini di kaunter.</div>';
+  $('k-nota').innerHTML = nota ? '<div style="margin-bottom:14px">' + nota + '</div>' : '';
+
+  $('k-blok-request').classList.toggle('tersembunyi', penuh);
+  $('k-blok-redeem').classList.toggle('tersembunyi', !penuh || p.pendingRedeem);
+
+  const label = { pending: 'Menunggu', approved: 'Lulus', rejected: 'Ditolak' };
+  $('k-sejarah').innerHTML = p.sejarah.length
+    ? p.sejarah.map(s => '<div class="baris"><span>' + esc(s.jenis) + ' · <span class="kecil">' + esc(s.masa) + '</span></span><span class="st-' + esc(s.status) + '">' + esc(label[s.status] || s.status) + '</span></div>').join('')
+    : '<p class="kosong">Belum ada rekod. Order air dan masukkan ID pembelian untuk cop pertama!</p>';
+}
+
+$('k-btn-request').onclick = e => sibuk(e.currentTarget, async () => {
+  const id = $('k-order').value.replace(/\D/g, '');
+  if (!id) { toast('Masukkan ID pembelian dahulu.', true); return; }
+  const r = await api('requestCop', { token: simpan.get('token'), orderId: id });
+  $('k-order').value = '';
+  toast(r.mesej); paparKad(r.profil);
+});
+
+$('k-btn-redeem').onclick = e => sibuk(e.currentTarget, async () => {
+  const r = await api('requestRedeem', { token: simpan.get('token') });
+  toast(r.mesej); paparKad(r.profil);
+});
+
+if (simpan.get('token')) { tunjuk('v-kad'); muatKad(); } else tunjuk('v-auth');
+</script>
+</body>
+</html>

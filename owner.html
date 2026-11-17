@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f07c1e">
+<title>Citrus Lane · Owner</title>
+<style>
+  /* ====== WARNA CITRUS LANE (boleh tukar) ====== */
+  :root {
+    --oren: #f07c1e; --oren-gelap: #c95f0c; --oren-lembut: #fff1e3;
+    --limau: #6b9b1e; --limau-lembut: #eef6e0;
+    --latar: #fbf8f3; --kad: #fff; --teks: #2a2520; --lembut: #7c7268; --garis: #ece4da;
+    --merah: #c0392b; --kuning: #fff6d6;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--latar); color: var(--teks); font-size: 16px; line-height: 1.45; }
+  .wrap { max-width: 520px; margin: 0 auto; padding: 18px 16px 110px; }
+  header.atas { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .jenama { display: flex; align-items: center; gap: 10px; }
+  .jenama .logo { width: 38px; height: 38px; border-radius: 50%; background: var(--oren-lembut); display: grid; place-items: center; font-size: 20px; }
+  h1 { font-size: 20px; margin: 0; } h2 { font-size: 17px; margin: 0 0 8px; }
+  .kecil { font-size: 13px; color: var(--lembut); }
+  .kad { background: var(--kad); border: 1px solid var(--garis); border-radius: 16px; padding: 16px; margin-bottom: 14px; }
+  button { font: inherit; cursor: pointer; border-radius: 12px; border: 1px solid var(--oren); background: var(--oren); color: #fff; font-weight: 600; padding: 12px 14px; }
+  button.lain { background: #fff; color: var(--oren-gelap); }
+  button.hijau { background: var(--limau); border-color: var(--limau); }
+  button.merah { background: #fff; color: var(--merah); border-color: var(--merah); }
+  button.mini { padding: 7px 11px; font-size: 14px; border-radius: 10px; }
+  button.penuh { width: 100%; }
+  button:disabled { opacity: .5; cursor: wait; }
+  .pautan { background: none; border: none; color: var(--lembut); font-weight: 400; padding: 4px; text-decoration: underline; font-size: 14px; }
+  input, select { width: 100%; font: inherit; padding: 11px 12px; border: 1px solid var(--garis); border-radius: 12px; background: #fff; color: var(--teks); }
+  input:focus { outline: 2px solid var(--oren); outline-offset: 1px; }
+  label { display: block; font-size: 13px; color: var(--lembut); margin: 10px 0 4px; }
+  .tersembunyi { display: none !important; }
+
+  /* Dashboard */
+  .hero { background: var(--oren); color: #fff; border: none; }
+  .hero .kecil { color: #ffe6cf; }
+  .stat3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+  .stat3 div { background: rgba(255,255,255,.16); border-radius: 12px; padding: 10px; }
+  .stat3 b { display: block; font-size: 24px; }
+  .stat3 span { font-size: 12px; color: #ffe6cf; }
+  .stat2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat2 div { background: var(--latar); border-radius: 12px; padding: 10px; }
+  .stat2 b { display: block; font-size: 18px; }
+  .navgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .navgrid button { background: #fff; color: var(--teks); border: 1px solid var(--garis); padding: 16px 12px; text-align: left; position: relative; font-weight: 600; }
+  .navgrid button .ik { font-size: 24px; display: block; margin-bottom: 4px; }
+  .lencana { position: absolute; top: 10px; right: 10px; background: var(--merah); color: #fff; font-size: 12px; border-radius: 999px; padding: 1px 8px; }
+
+  /* Bottom nav */
+  nav.bawah { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--garis); display: flex; justify-content: center; padding-bottom: env(safe-area-inset-bottom); z-index: 5; }
+  nav.bawah .dalam { display: flex; width: 100%; max-width: 520px; }
+  nav.bawah button { flex: 1; background: none; border: none; color: var(--lembut); font-weight: 500; font-size: 12px; padding: 8px 2px 10px; border-radius: 0; position: relative; }
+  nav.bawah button .ik { display: block; font-size: 20px; }
+  nav.bawah button.aktif { color: var(--oren-gelap); }
+  nav.bawah .lencana { top: 4px; right: 18%; font-size: 11px; padding: 0 6px; }
+
+  /* POS */
+  .menugrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .tile { background: #fff; border: 1px solid var(--garis); color: var(--teks); padding: 10px 6px; text-align: center; font-weight: 500; position: relative; }
+  .tile .ik { font-size: 30px; display: block; }
+  .tile .nm { font-size: 13px; display: block; line-height: 1.25; min-height: 2.5em; }
+  .tile .hg { font-size: 13px; color: var(--oren-gelap); font-weight: 700; }
+  .tile.ada { border: 2px solid var(--oren); background: var(--oren-lembut); }
+  .tile .bil { position: absolute; top: 6px; right: 6px; background: var(--oren); color: #fff; border-radius: 999px; font-size: 12px; padding: 0 7px; }
+  .baris { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 9px 0; border-bottom: 1px solid var(--garis); }
+  .baris:last-child { border-bottom: none; }
+  .qty { display: flex; align-items: center; gap: 8px; }
+  .aksi { display: flex; gap: 6px; flex-shrink: 0; }
+  .qty button { width: 32px; height: 32px; padding: 0; border-radius: 50%; }
+  .jumlah { display: flex; justify-content: space-between; font-size: 20px; font-weight: 700; margin: 10px 0; }
+  .berjaya { text-align: center; background: var(--limau-lembut); border-color: #cfe3ad; }
+  .berjaya .id { font-size: 44px; font-weight: 800; color: var(--limau); letter-spacing: 1px; }
+
+  /* Orders */
+  .tab { display: flex; gap: 6px; background: #f1ebe3; padding: 4px; border-radius: 12px; margin-bottom: 12px; }
+  .tab button { flex: 1; background: transparent; color: var(--lembut); border: none; padding: 9px; }
+  .tab button.aktif { background: #fff; color: var(--teks); }
+  .order-kepala { display: flex; justify-content: space-between; align-items: center; }
+  .order-id { font-size: 20px; font-weight: 800; }
+  .tag { font-size: 12px; padding: 2px 9px; border-radius: 999px; font-weight: 600; }
+  .tag.active { background: var(--kuning); color: #8a6100; }
+  .tag.done { background: var(--limau-lembut); color: var(--limau); }
+  .butang2 { display: flex; gap: 8px; margin-top: 10px; }
+  .butang2 button { flex: 1; }
+
+  .kosong { color: var(--lembut); font-size: 14px; padding: 6px 0; }
+  #toast { position: fixed; left: 50%; bottom: 84px; transform: translateX(-50%); max-width: 90%; background: var(--teks); color: #fff; padding: 11px 15px; border-radius: 12px; font-size: 14px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 20; }
+  #toast.tunjuk { opacity: 1; } #toast.ralat { background: var(--merah); }
+</style>
+</head>
+<body>
+
+<!-- ================= LOG MASUK OWNER ================= -->
+<section id="p-login" class="wrap tersembunyi">
+  <div class="kad" style="margin-top:40px; text-align:center">
+    <div style="font-size:44px">🍊</div>
+    <h1 class="nama-kedai">Citrus Lane</h1>
+    <p class="kecil">Panel owner</p>
+    <form id="f-login" style="text-align:left">
+      <label for="l-pin">PIN owner</label>
+      <input id="l-pin" type="password" inputmode="numeric" autocomplete="current-password" required>
+      <button class="penuh" style="margin-top:14px" type="submit">Masuk</button>
+    </form>
+  </div>
+</section>
+
+<div id="app" class="tersembunyi">
+  <div class="wrap">
+    <header class="atas">
+      <div class="jenama"><div class="logo">🍊</div><div><h1 class="nama-kedai">Citrus Lane</h1><div class="kecil" id="tajuk-halaman">Dashboard</div></div></div>
+      <button class="pautan" type="button" onclick="logKeluar()">Keluar</button>
+    </header>
+
+    <!-- ========== 1. DASHBOARD ========== -->
+    <section id="p-dashboard" class="halaman">
+      <div class="kad hero">
+        <div class="kecil">Hari ini · <span id="d-tarikh">-</span></div>
+        <div class="stat3">
+          <div><b id="d-cup">0</b><span>Cup</span></div>
+          <div><b id="d-jualan">RM0</b><span>Jualan</span></div>
+          <div><b id="d-order">0</b><span>Order</span></div>
+        </div>
+      </div>
+      <div class="kad">
+        <div class="stat2">
+          <div><span class="kecil">Cash</span><b id="d-cash">RM0.00</b></div>
+          <div><span class="kecil">Card</span><b id="d-card">RM0.00</b></div>
+        </div>
+        <p class="kecil" style="margin:10px 0 0" id="d-laku"></p>
+      </div>
+      <div class="navgrid">
+        <button type="button" onclick="pergi('pos')"><span class="ik">🧾</span>Ambil order</button>
+        <button type="button" onclick="pergi('orders')"><span class="ik">📋</span>Urus order<span class="lencana tersembunyi" id="d-b-order"></span></button>
+        <button type="button" onclick="pergi('menu')"><span class="ik">🍹</span>Urus menu</button>
+        <button type="button" onclick="pergi('loyalty')"><span class="ik">💛</span>Loyalty<span class="lencana tersembunyi" id="d-b-loyalty"></span></button>
+      </div>
+      <p class="kecil" style="text-align:center;margin-top:14px"><span id="d-ahli">0</span> ahli loyalty berdaftar</p>
+    </section>
+
+    <!-- ========== 2. AMBIL ORDER (POS) ========== -->
+    <section id="p-pos" class="halaman tersembunyi">
+      <div id="pos-berjaya" class="kad berjaya tersembunyi">
+        <div class="kecil">Order berjaya</div>
+        <div class="id" id="pos-id">#0000</div>
+        <div id="pos-ringkas" style="font-weight:600"></div>
+        <p class="kecil">Beritahu pelanggan ID ini untuk request cop loyalty.</p>
+        <div class="butang2">
+          <button type="button" class="lain" onclick="pergi('orders')">Lihat order</button>
+          <button type="button" onclick="orderBaru()">Order baru</button>
+        </div>
+      </div>
+      <div id="pos-borang">
+        <div class="kad">
+          <h2>Pilih air</h2>
+          <div class="menugrid" id="pos-menu"></div>
+        </div>
+        <div class="kad">
+          <h2>Order semasa</h2>
+          <div id="pos-troli"></div>
+          <div class="jumlah"><span>Jumlah</span><span id="pos-jumlah">RM0.00</span></div>
+          <div class="butang2" style="margin-top:0">
+            <button type="button" class="lain" onclick="kosongkanTroli()">Kosongkan</button>
+            <button type="button" id="pos-hantar">Submit order</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 3. URUS ORDER ========== -->
+    <section id="p-orders" class="halaman tersembunyi">
+      <div class="tab">
+        <button type="button" id="t-aktif" class="aktif" onclick="tabOrder('active')">Aktif</button>
+        <button type="button" id="t-siap" onclick="tabOrder('done')">Selesai hari ini</button>
+      </div>
+      <div id="o-senarai"></div>
+    </section>
+
+    <!-- ========== 4. URUS MENU ========== -->
+    <section id="p-menu" class="halaman tersembunyi">
+      <div class="kad">
+        <h2 id="m-tajuk">Tambah menu</h2>
+        <form id="f-menu">
+          <input type="hidden" id="m-id">
+          <label for="m-nama">Nama air</label>
+          <input id="m-nama" placeholder="Citrus Tea" required>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div><label for="m-harga">Harga (RM)</label><input id="m-harga" type="number" step="0.10" min="0.10" inputmode="decimal" placeholder="6.00" required></div>
+            <div><label for="m-ikon">Ikon</label>
+              <select id="m-ikon"><option>🍊</option><option>🍋</option><option>🍵</option><option>🥤</option><option>🧃</option><option>🧊</option><option>☕</option><option>🧋</option><option>🍹</option><option>🥭</option><option>🍓</option><option>🍉</option></select>
+            </div>
+          </div>
+          <div class="butang2">
+            <button type="button" class="lain tersembunyi" id="m-batal" onclick="resetMenuForm()">Batal</button>
+            <button type="submit" id="m-simpan">+ Tambah</button>
+          </div>
+        </form>
+      </div>
+      <div class="kad">
+        <h2>Menu semasa</h2>
+        <div id="m-senarai"></div>
+      </div>
+    </section>
+
+    <!-- ========== 5. LOYALTY APPROVAL ========== -->
+    <section id="p-loyalty" class="halaman tersembunyi">
+      <div class="kad">
+        <h2>Request cop</h2>
+        <p class="kecil" style="margin-top:-4px">Semak ID pembelian sebelum approve.</p>
+        <div id="ly-cop"></div>
+      </div>
+      <div class="kad">
+        <h2>Request air percuma</h2>
+        <div id="ly-redeem"></div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="bawah"><div class="dalam">
+    <button type="button" data-h="dashboard" onclick="pergi('dashboard')"><span class="ik">🏠</span>Utama</button>
+    <button type="button" data-h="pos" onclick="pergi('pos')"><span class="ik">🧾</span>POS</button>
+    <button type="button" data-h="orders" onclick="pergi('orders')"><span class="ik">📋</span>Order<span class="lencana tersembunyi" id="n-b-order"></span></button>
+    <button type="button" data-h="menu" onclick="pergi('menu')"><span class="ik">🍹</span>Menu</button>
+    <button type="button" data-h="loyalty" onclick="pergi('loyalty')"><span class="ik">💛</span>Loyalty<span class="lencana tersembunyi" id="n-b-loyalty"></span></button>
+  </div></nav>
+</div>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* =====================================================================
+ *  TAMPAL URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI
+ * ===================================================================== */
+const API_URL = 'https://script.google.com/macros/s/AKfycbzikkvszSYQqCE9f3AtY2LzasFKV8rH_sxAF9VCQ36rC3tgmgc3pGeKCiPLzX0zJzhg/exec';
+
+/* ---------- asas ---------- */
+const $ = id => document.getElementById(id);
+const RM = n => 'RM' + Number(n || 0).toFixed(2);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const sesi = {
+  get() { try { return sessionStorage.getItem('pinOwner'); } catch (e) { return window._pin || null; } },
+  set(v) { try { sessionStorage.setItem('pinOwner', v); } catch (e) { window._pin = v; } },
+  buang() { try { sessionStorage.removeItem('pinOwner'); } catch (e) {} window._pin = null; }
+};
+
+async function api(action, data) {
+  if (!API_URL || API_URL.indexOf('http') !== 0) throw new Error('API_URL belum diisi dalam owner.html.');
+  let res;
+  try {
+    res = await fetch(API_URL, { method: 'POST', body: JSON.stringify(Object.assign({ action: action, adminPin: sesi.get() }, data || {})) });
+  } catch (e) { throw new Error('Tidak dapat sambung ke server. Semak internet.'); }
+  let j;
+  try { j = await res.json(); } catch (e) { throw new Error('Jawapan server tidak sah. Semak deployment Apps Script.'); }
+  if (!j.ok) {
+    if (/PIN owner salah/.test(j.error) && sesi.get()) { sesi.buang(); mula(); }
+    throw new Error(j.error || 'Ralat tidak diketahui.');
+  }
+  return j;
+}
+function toast(m, ralat) {
+  const t = $('toast'); t.textContent = m; t.className = 'tunjuk' + (ralat ? ' ralat' : '');
+  clearTimeout(t._h); t._h = setTimeout(() => t.className = '', 3200);
+}
+async function sibuk(btn, kerja) {
+  if (btn) btn.disabled = true;
+  try { return await kerja(); } catch (e) { toast(e.message, true); } finally { if (btn) btn.disabled = false; }
+}
+function lencana(ids, n) {
+  ids.forEach(id => { const el = $(id); el.textContent = n; el.classList.toggle('tersembunyi', !n); });
+}
+
+/* ---------- navigasi (#dashboard, #pos, #orders, #menu, #loyalty) ---------- */
+const TAJUK = { dashboard: 'Dashboard', pos: 'Ambil order', orders: 'Urus order', menu: 'Urus menu', loyalty: 'Loyalty approval' };
+let pemasa = null;
+function pergi(h) { if (location.hash === '#' + h) mula(); else location.hash = h; }
+window.addEventListener('hashchange', mula);
+
+function mula() {
+  clearInterval(pemasa);
+  if (!sesi.get()) { $('p-login').classList.remove('tersembunyi'); $('app').classList.add('tersembunyi'); return; }
+  $('p-login').classList.add('tersembunyi'); $('app').classList.remove('tersembunyi');
+  let h = location.hash.replace('#', '');
+  if (!TAJUK[h]) h = 'dashboard';
+  document.querySelectorAll('.halaman').forEach(s => s.classList.toggle('tersembunyi', s.id !== 'p-' + h));
+  document.querySelectorAll('nav.bawah button').forEach(b => b.classList.toggle('aktif', b.dataset.h === h));
+  $('tajuk-halaman').textContent = TAJUK[h];
+  window.scrollTo(0, 0);
+  const muat = { dashboard: muatDashboard, pos: muatPos, orders: muatOrders, menu: muatMenu, loyalty: muatLoyalty }[h];
+  muat();
+  // Kemas kini automatik setiap 20 saat (kecuali POS)
+  if (h !== 'pos') pemasa = setInterval(() => { if (!document.hidden) muat(true); }, 20000);
+}
+
+$('f-login').onsubmit = e => {
+  e.preventDefault();
+  sibuk(e.submitter, async () => {
+    sesi.set($('l-pin').value);
+    try { await api('adminDashboard'); } catch (err) { sesi.buang(); throw err; }
+    $('l-pin').value = '';
+    pergi('dashboard');
+  });
+};
+function logKeluar() { sesi.buang(); clearInterval(pemasa); location.hash = ''; mula(); }
+function setNama(n) { if (n) document.querySelectorAll('.nama-kedai').forEach(el => el.textContent = n); }
+
+/* ================= 1. DASHBOARD ================= */
+async function muatDashboard(senyap) {
+  try {
+    const d = await api('adminDashboard');
+    setNama(d.namaKedai);
+    $('d-tarikh').textContent = d.hariIni;
+    $('d-cup').textContent = d.cup;
+    $('d-jualan').textContent = 'RM' + (Number.isInteger(d.jualan) ? d.jualan : d.jualan.toFixed(2));
+    $('d-order').textContent = d.order;
+    $('d-cash').textContent = RM(d.cash);
+    $('d-card').textContent = RM(d.card);
+    $('d-ahli').textContent = d.ahli;
+    $('d-laku').textContent = d.palingLaku.length ? 'Paling laku: ' + d.palingLaku.map(x => x.nama + ' (' + x.cup + ')').join(', ') : 'Belum ada jualan hari ini.';
+    lencana(['d-b-order', 'n-b-order'], d.orderAktif);
+    lencana(['d-b-loyalty', 'n-b-loyalty'], d.loyaltyPending);
+  } catch (e) { if (!senyap) toast(e.message, true); }
+}
+
+/* ================= 2. AMBIL ORDER (POS) ================= */
+let MENU = [];
+let troli = {};   // { idMenu: kuantiti }
+
+async function muatPos() {
+  // Setiap kali buka halaman POS, tunjuk borang order (bukan skrin berjaya lama)
+  $('pos-berjaya').classList.add('tersembunyi');
+  $('pos-borang').classList.remove('tersembunyi');
+  try {
+    const r = await api('adminMenu');
+    setNama(r.namaKedai);
+    MENU = r.menu;
+    Object.keys(troli).forEach(id => { if (!MENU.find(m => m.id === id)) delete troli[id]; });
+    paparPos();
+  } catch (e) { toast(e.message, true); }
+}
+
+function paparPos() {
+  $('pos-menu').innerHTML = MENU.length ? MENU.map(m =>
+    '<button type="button" class="tile' + (troli[m.id] ? ' ada' : '') + '" data-tambah="' + esc(m.id) + '">' +
+    (troli[m.id] ? '<span class="bil">' + troli[m.id] + '</span>' : '') +
+    '<span class="ik">' + esc(m.ikon) + '</span><span class="nm">' + esc(m.nama) + '</span><span class="hg">' + RM(m.harga) + '</span></button>'
+  ).join('') : '<p class="kosong">Tiada menu. Tambah di halaman Menu.</p>';
+
+  const baris = MENU.filter(m => troli[m.id]);
+  $('pos-troli').innerHTML = baris.length ? baris.map(m =>
+    '<div class="baris"><div><b>' + esc(m.nama) + '</b><div class="kecil">' + RM(m.harga) + ' × ' + troli[m.id] + ' = ' + RM(m.harga * troli[m.id]) + '</div></div>' +
+    '<div class="qty"><button type="button" class="lain" data-kurang="' + esc(m.id) + '" aria-label="Kurang">−</button><b>' + troli[m.id] +
+    '</b><button type="button" data-tambah="' + esc(m.id) + '" aria-label="Tambah">+</button></div></div>'
+  ).join('') : '<p class="kosong">Tekan air di atas untuk tambah ke order.</p>';
+
+  const jumlah = baris.reduce((s, m) => s + m.harga * troli[m.id], 0);
+  $('pos-jumlah').textContent = RM(jumlah);
+  $('pos-hantar').disabled = !baris.length;
+}
+
+function kosongkanTroli() { troli = {}; paparPos(); }
+function orderBaru() { troli = {}; $('pos-berjaya').classList.add('tersembunyi'); $('pos-borang').classList.remove('tersembunyi'); paparPos(); window.scrollTo(0, 0); }
+
+$('pos-hantar').onclick = e => sibuk(e.currentTarget, async () => {
+  const items = Object.keys(troli).map(id => ({ id: id, qty: troli[id] }));
+  const r = await api('adminBuatOrder', { items: items });
+  $('pos-id').textContent = '#' + r.order.id;
+  $('pos-ringkas').textContent = r.order.cup + ' cup · ' + RM(r.order.jumlah);
+  $('pos-borang').classList.add('tersembunyi');
+  $('pos-berjaya').classList.remove('tersembunyi');
+  troli = {};
+  window.scrollTo(0, 0);
+});
+
+/* ================= 3. URUS ORDER ================= */
+let tabSemasa = 'active', ORDERS = [], editBayar = null;
+
+function tabOrder(t) { tabSemasa = t; editBayar = null; $('t-aktif').classList.toggle('aktif', t === 'active'); $('t-siap').classList.toggle('aktif', t === 'done'); paparOrders(); }
+
+async function muatOrders(senyap) {
+  try { ORDERS = (await api('adminOrders')).orders; paparOrders(); }
+  catch (e) { if (!senyap) toast(e.message, true); }
+}
+
+function paparOrders() {
+  const aktif = ORDERS.filter(o => o.status === 'active');
+  $('t-aktif').textContent = 'Aktif (' + aktif.length + ')';
+  lencana(['n-b-order'], aktif.length);
+  const senarai = ORDERS.filter(o => o.status === tabSemasa);
+  $('o-senarai').innerHTML = senarai.length ? senarai.map(o => {
+    let html = '<div class="kad"><div class="order-kepala"><span class="order-id">#' + o.id + '</span>' +
+      '<span class="tag ' + o.status + '">' + (o.status === 'active' ? 'Active' : 'Done · ' + esc(o.bayaran).toUpperCase()) + '</span></div>' +
+      '<div class="kecil">' + esc(o.masa) + ' · ' + o.cup + ' cup</div>' +
+      '<div style="margin:6px 0">' + o.items.map(i => esc(i.qty + '× ' + i.nama)).join('<br>') + '</div>' +
+      '<div style="font-weight:700">' + RM(o.jumlah) + '</div>';
+    if (o.status === 'active') {
+      html += '<p class="kecil" style="margin:10px 0 0">Siap? Pilih cara bayaran:</p><div class="butang2" style="margin-top:6px">' +
+        '<button type="button" class="hijau" data-siap="' + o.id + '" data-bayar="cash">✓ Done · Cash</button>' +
+        '<button type="button" class="hijau" data-siap="' + o.id + '" data-bayar="card">✓ Done · Card</button></div>';
+    } else if (editBayar === o.id) {
+      html += '<p class="kecil" style="margin:10px 0 0">Tukar cara bayaran kepada:</p><div class="butang2" style="margin-top:6px">' +
+        '<button type="button" class="' + (o.bayaran === 'cash' ? 'lain' : '') + '" data-tukar="' + o.id + '" data-bayar="cash">Cash</button>' +
+        '<button type="button" class="' + (o.bayaran === 'card' ? 'lain' : '') + '" data-tukar="' + o.id + '" data-bayar="card">Card</button>' +
+        '<button type="button" class="lain" data-batal-edit="1">Batal</button></div>';
+    } else {
+      html += '<div class="butang2"><button type="button" class="lain mini" data-edit-bayar="' + o.id + '">Edit payment</button></div>';
+    }
+    return html + '</div>';
+  }).join('') : '<div class="kad kosong">' + (tabSemasa === 'active' ? 'Tiada order aktif.' : 'Belum ada order selesai hari ini.') + '</div>';
+}
+
+/* ================= 4. URUS MENU ================= */
+async function muatMenu(senyap) {
+  try { MENU = (await api('adminMenu')).menu; paparMenu(); }
+  catch (e) { if (!senyap) toast(e.message, true); }
+}
+
+function paparMenu() {
+  $('m-senarai').innerHTML = MENU.length ? MENU.map(m =>
+    '<div class="baris"><div><span style="font-size:22px">' + esc(m.ikon) + '</span> <b>' + esc(m.nama) + '</b> <span class="kecil">· ' + RM(m.harga) + '</span></div>' +
+    '<div class="aksi"><button type="button" class="lain mini" data-edit-menu="' + esc(m.id) + '">Edit</button>' +
+    '<button type="button" class="merah mini" data-buang-menu="' + esc(m.id) + '">Buang</button></div></div>'
+  ).join('') : '<p class="kosong">Belum ada menu.</p>';
+}
+
+function resetMenuForm() {
+  $('m-id').value = ''; $('m-nama').value = ''; $('m-harga').value = ''; $('m-ikon').selectedIndex = 0;
+  $('m-tajuk').textContent = 'Tambah menu'; $('m-simpan').textContent = '+ Tambah'; $('m-batal').classList.add('tersembunyi');
+}
+
+$('f-menu').onsubmit = e => {
+  e.preventDefault();
+  sibuk(e.submitter, async () => {
+    const edit = !!$('m-id').value;
+    const r = await api('adminMenuSimpan', { id: $('m-id').value, nama: $('m-nama').value, harga: $('m-harga').value, ikon: $('m-ikon').value });
+    MENU = r.menu; paparMenu(); resetMenuForm();
+    toast(edit ? 'Menu dikemas kini' : 'Menu ditambah');
+  });
+};
+
+/* ================= 5. LOYALTY ================= */
+async function muatLoyalty(senyap) {
+  try { paparLoyalty(await api('adminLoyalty')); }
+  catch (e) { if (!senyap) toast(e.message, true); }
+}
+
+function paparLoyalty(r) {
+  lencana(['n-b-loyalty'], r.pendingCop.length + r.pendingRedeem.length);
+  $('ly-cop').innerHTML = r.pendingCop.length ? r.pendingCop.map(x =>
+    '<div class="baris" style="align-items:flex-start"><div><b>' + esc(x.nama) + ' (#' + x.orderId + ')</b> mohon 1 cop' +
+    '<div class="kecil">' + esc(x.telefon) + ' · kini ' + x.cop + '/' + r.copPenuh + ' cop</div>' +
+    (x.order ? '<div class="kecil">Order: ' + esc(x.order.ringkas) + ' · ' + RM(x.order.jumlah) + ' · ' + esc(x.order.masa) + '</div>' : '<div class="kecil" style="color:var(--merah)">Order tidak dijumpai</div>') +
+    '</div><div class="aksi"><button type="button" class="hijau mini" data-cop="' + esc(x.id) + '" data-k="approved">Approve</button>' +
+    '<button type="button" class="merah mini" data-cop="' + esc(x.id) + '" data-k="rejected">Reject</button></div></div>'
+  ).join('') : '<p class="kosong">Tiada request cop.</p>';
+
+  $('ly-redeem').innerHTML = r.pendingRedeem.length ? r.pendingRedeem.map(x =>
+    '<div class="baris"><div><b>' + esc(x.nama) + '</b><div class="kecil">' + esc(x.telefon) + ' · ' + x.cop + '/' + r.copPenuh + ' cop · ' + esc(x.masa) + '</div></div>' +
+    '<div class="aksi"><button type="button" class="hijau mini" data-redeem="' + esc(x.id) + '" data-k="approved">Beri air</button>' +
+    '<button type="button" class="merah mini" data-redeem="' + esc(x.id) + '" data-k="rejected">Reject</button></div></div>'
+  ).join('') : '<p class="kosong">Tiada request air percuma.</p>';
+}
+
+/* ================= PENDENGAR KLIK (semua halaman) ================= */
+document.addEventListener('click', e => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  const d = b.dataset;
+
+  if (d.tambah) { troli[d.tambah] = (troli[d.tambah] || 0) + 1; paparPos(); return; }
+  if (d.kurang) { troli[d.kurang] = (troli[d.kurang] || 0) - 1; if (troli[d.kurang] <= 0) delete troli[d.kurang]; paparPos(); return; }
+
+  if (d.siap) return sibuk(b, async () => { ORDERS = (await api('adminSiapOrder', { id: d.siap, bayaran: d.bayar })).orders; paparOrders(); toast('Order #' + d.siap + ' selesai (' + d.bayar + ')'); });
+  if (d.editBayar) { editBayar = Number(d.editBayar); paparOrders(); return; }
+  if (d.batalEdit) { editBayar = null; paparOrders(); return; }
+  if (d.tukar) return sibuk(b, async () => { ORDERS = (await api('adminTukarBayaran', { id: d.tukar, bayaran: d.bayar })).orders; editBayar = null; paparOrders(); toast('Bayaran #' + d.tukar + ' ditukar ke ' + d.bayar); });
+
+  if (d.editMenu) {
+    const m = MENU.find(x => x.id === d.editMenu); if (!m) return;
+    $('m-id').value = m.id; $('m-nama').value = m.nama; $('m-harga').value = m.harga.toFixed(2);
+    const opsyen = Array.from($('m-ikon').options).map(o => o.value);
+    if (opsyen.indexOf(m.ikon) === -1) $('m-ikon').add(new Option(m.ikon));
+    $('m-ikon').value = m.ikon;
+    $('m-tajuk').textContent = 'Edit menu'; $('m-simpan').textContent = 'Simpan'; $('m-batal').classList.remove('tersembunyi');
+    window.scrollTo(0, 0); return;
+  }
+  if (d.buangMenu) {
+    const m = MENU.find(x => x.id === d.buangMenu);
+    if (!b.dataset.sah) { b.dataset.sah = '1'; b.textContent = 'Pasti?'; setTimeout(() => { delete b.dataset.sah; b.textContent = 'Buang'; }, 3000); return; }
+    return sibuk(b, async () => { MENU = (await api('adminMenuBuang', { id: d.buangMenu })).menu; paparMenu(); toast((m ? m.nama : 'Menu') + ' dibuang'); });
+  }
+
+  if (d.cop) return sibuk(b, async () => { paparLoyalty(await api('adminProsesCop', { id: d.cop, keputusan: d.k })); toast(d.k === 'approved' ? 'Cop diluluskan' : 'Request ditolak'); });
+  if (d.redeem) return sibuk(b, async () => { paparLoyalty(await api('adminProsesRedeem', { id: d.redeem, keputusan: d.k })); toast(d.k === 'approved' ? 'Air percuma diberi. Kad pelanggan bermula semula.' : 'Request ditolak'); });
+});
+
+mula();
+</script>
+</body>
+</html>
