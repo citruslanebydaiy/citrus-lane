@@ -101,6 +101,45 @@
   .berjaya { text-align: center; background: var(--limau-lembut); border-color: #cfe3ad; }
   .berjaya .id { font-size: 42px; font-weight: 800; color: var(--limau); }
 
+  /* Memo slider */
+  .memo-wrap { margin-bottom: 14px; }
+  .memo-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; border-radius: 20px; scroll-behavior: smooth; }
+  .memo-track::-webkit-scrollbar { display: none; }
+  .memo { flex: 0 0 100%; scroll-snap-align: start; border-radius: 20px; overflow: hidden; background: #fff; border: 1px solid var(--garis); display: flex; flex-direction: column; }
+  .memo .gb { aspect-ratio: 16 / 9; background: var(--oren-lembut); }
+  .memo .gb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .memo .isi { padding: 12px 14px 14px; }
+  .memo .jenis { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 999px; margin-bottom: 4px; }
+  .memo h3 { margin: 2px 0 2px; color: var(--teks); font-size: 17px; }
+  .memo p { margin: 0; font-size: 14px; color: var(--lembut); }
+  .memo .tarikh { font-size: 12px; color: var(--oren-gelap); margin-top: 4px; font-weight: 600; }
+  .memo.tanpa-gb { justify-content: center; position: relative; overflow: hidden; }
+  .memo.tanpa-gb .isi { padding: 18px 18px 18px; position: relative; z-index: 1; }
+  .memo.tanpa-gb h3 { font-size: 20px; }
+  .memo.tanpa-gb .hiasan-ik { position: absolute; right: -10px; bottom: -18px; font-size: 110px; opacity: .18; line-height: 1; }
+  .memo.tanpa-gb.j-event { background: linear-gradient(140deg, #fff, #ffe1ec); } .memo.tanpa-gb.j-happy { background: linear-gradient(140deg, #fff, #dff2ff); }
+  .memo.tanpa-gb.j-baru { background: linear-gradient(140deg, #fff, #e6f3d3); } .memo.tanpa-gb.j-promo { background: linear-gradient(140deg, #fff, #fff0c2); }
+  .memo.tanpa-gb.j-umum { background: linear-gradient(140deg, #fff, #ffe6cc); }
+  .memo.tanpa-gb .jenis { background: #fff; }
+  .j-event { background: #ffe1ec; color: #b0275c; } .j-happy { background: #e2f5ff; color: #1b6c99; }
+  .j-baru { background: var(--limau-lembut); color: var(--limau); } .j-promo { background: #fff0c2; color: #8a5a00; } .j-umum { background: var(--oren-lembut); color: var(--oren-gelap); }
+  .titik { display: flex; justify-content: center; gap: 6px; margin-top: 8px; }
+  .titik button { width: 8px; height: 8px; padding: 0; margin: 0; border-radius: 999px; background: #e8d6bf; border: none; transition: width .2s; }
+  .titik button.aktif { width: 22px; background: var(--oren); }
+
+  /* Pintasan booth + WhatsApp */
+  .pintas { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .pintas a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-decoration: none; text-align: center;
+    border-radius: 18px; padding: 14px 8px; font-weight: 700; font-size: 14px; color: var(--teks); background: #fff; border: 1px solid var(--garis); box-shadow: 0 6px 18px rgba(201,95,12,.06); }
+  .pintas a .ik { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-size: 24px; background: var(--oren-lembut); }
+  .pintas a.wa .ik { background: #25d366; }
+  .pintas a.wa .ik svg { width: 28px; height: 28px; }
+  .pintas a span.kecil { font-weight: 400; font-size: 12px; }
+
+  /* History */
+  .tag-sumber { font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 999px; background: #f3ece2; color: var(--lembut); }
+  .tag-sumber.online { background: #e7efff; color: #2753b5; } .tag-sumber.percuma { background: #fde8ef; color: #a3245a; }
+
   /* Navigasi bawah */
   nav.bawah { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--garis); display: flex; justify-content: center; padding-bottom: env(safe-area-inset-bottom); z-index: 5; }
   nav.bawah .dalam { display: flex; width: 100%; max-width: 460px; }
@@ -139,6 +178,21 @@
         <label for="l-pin">PIN</label>
         <input id="l-pin" type="password" inputmode="numeric" placeholder="4 hingga 6 nombor" autocomplete="current-password" required>
         <button type="submit">Log masuk</button>
+        <p class="tengah" style="margin:10px 0 0"><button type="button" class="pautan" id="btn-lupa">Lupa PIN?</button></p>
+      </form>
+
+      <form id="f-lupa" class="tersembunyi">
+        <h2 style="margin-top:16px">🔑 Tukar PIN</h2>
+        <p class="kecil" style="margin:0">Masukkan nombor telefon dan PIN baru. PIN baru boleh digunakan selepas owner sahkan request anda.</p>
+        <label for="k-tel">No. telefon berdaftar</label>
+        <input id="k-tel" type="tel" inputmode="numeric" placeholder="0123456789" autocomplete="tel" required>
+        <label for="k-pin1">PIN baru (4 hingga 6 nombor)</label>
+        <input id="k-pin1" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" required>
+        <label for="k-pin2">Taip semula PIN baru</label>
+        <input id="k-pin2" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password" required>
+        <button type="submit">Hantar request</button>
+        <div id="lupa-wa" class="tersembunyi" style="margin-top:10px"></div>
+        <p class="tengah" style="margin:10px 0 0"><button type="button" class="pautan" id="btn-balik-login">← Kembali ke log masuk</button></p>
       </form>
 
       <form id="f-daftar" class="tersembunyi">
@@ -165,6 +219,10 @@
 
     <!-- ---------- TAB KAD ---------- -->
     <div id="tab-kad">
+      <div class="memo-wrap tersembunyi" id="memo-wrap">
+        <div class="memo-track" id="memo-track"></div>
+        <div class="titik" id="memo-titik"></div>
+      </div>
       <div class="kad ganjaran">
         <div style="display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1">
           <h2 class="nama-kedai" style="margin:0">Citrus Lane</h2>
@@ -195,6 +253,11 @@
         <p class="kecil" style="margin:10px 0 0">💡 Order melalui website? Cop masuk automatik bila order siap.</p>
       </div>
 
+      <div class="pintas">
+        <a href="booth.html" target="_blank" rel="noopener"><span class="ik">🎪</span>Tempah booth event<span class="kecil">Untuk majlis anda</span></a>
+        <a href="#" class="wa" id="btn-wa" target="_blank" rel="noopener"><span class="ik"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#fff" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 7L3 29l6.4-2c2 1.1 4.3 1.7 6.6 1.7 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm6.6 15.9c-.3.8-1.7 1.6-2.4 1.7-1.1.2-2 .1-4.2-.8-3.7-1.6-6.1-5.4-6.3-5.6-.2-.2-1.5-2-1.5-3.7s.9-2.6 1.3-3c.4-.4.8-.5 1-.5h.7c.2 0 .5-.1.8.6l1.1 2.6c.1.2.1.5 0 .7-.2.2-.2.4-.4.6l-.6.7c-.2.2-.4.4-.2.8.2.4 1 1.6 2 2.5 1.4 1.2 2.5 1.6 2.9 1.8.4.2.6.1.8-.1.2-.3.9-1 1.1-1.4.2-.4.5-.3.8-.2.3.1 2 1 2.4 1.1.4.2.7.3.8.5.1.1.1.9-.2 1.7z"/></svg></span>WhatsApp kami<span class="kecil">Tanya apa-apa</span></a>
+      </div>
+
       <div class="kad">
         <h2>Sejarah</h2>
         <div id="k-sejarah"></div>
@@ -212,11 +275,16 @@
         <button type="button" onclick="orderLagi()">Order lagi</button>
       </div>
 
-      <div id="o-saya"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <h2 id="o-tajuk" style="margin:0">Menu</h2>
+        <button type="button" class="lain" id="btn-history" style="width:auto;margin:0;padding:8px 14px">🧾 History</button>
+      </div>
 
-      <div id="o-tutup" class="kad tengah tersembunyi"><h2>Order online ditutup</h2><p class="kecil">Sila order di kaunter buat masa ini.</p></div>
+      <div id="o-history" class="tersembunyi"></div>
 
-      <div id="o-borang">
+      <div id="o-tutup" class="kad tengah tersembunyi o-menu-bhg"><h2>Order online ditutup</h2><p class="kecil">Sila order di kaunter buat masa ini.</p></div>
+
+      <div id="o-borang" class="o-menu-bhg">
         <div class="chips" id="o-kat"></div>
         <div id="o-menu"></div>
         <div class="kad" id="o-troli-kad">
@@ -225,7 +293,7 @@
           <label for="o-nota">Nota (pilihan)</label>
           <input id="o-nota" placeholder="Contoh: kurang ais, kurang manis" maxlength="120">
           <div style="display:flex;justify-content:space-between;font-size:20px;font-weight:800;margin-top:12px"><span>Jumlah</span><span id="o-jumlah">RM0.00</span></div>
-          <p class="kecil" style="margin:4px 0 0">Bayar di kaunter (cash atau card) semasa ambil air.</p>
+          <p class="kecil" style="margin:4px 0 0">Bayar di kaunter (cash atau QR) semasa ambil air.</p>
           <button type="button" id="o-hantar">Hantar order</button>
         </div>
       </div>
@@ -289,7 +357,11 @@ function masukApp() {
 }
 function keluarApp() {
   $('v-auth').classList.remove('tersembunyi'); $('v-app').classList.add('tersembunyi'); $('nav').classList.add('tersembunyi');
-  $('bar-troli').classList.add('tersembunyi'); clearInterval(pemasa);
+  $('bar-troli').classList.add('tersembunyi'); clearInterval(pemasa); clearInterval(pemasaMemo);
+  // Sentiasa kembali ke borang log masuk
+  $('f-lupa').classList.add('tersembunyi'); $('lupa-wa').classList.add('tersembunyi');
+  document.querySelector('#v-auth .tab').classList.remove('tersembunyi'); tukarTab(true);
+  memoKunci = '';
 }
 function tukarTabApp(t) {
   tabSemasa = t;
@@ -297,7 +369,7 @@ function tukarTabApp(t) {
   $('tab-order').classList.toggle('tersembunyi', t !== 'order');
   document.querySelectorAll('nav.bawah button').forEach(b => b.classList.toggle('aktif', b.dataset.tab === t));
   window.scrollTo(0, 0);
-  if (t === 'order') muatMenu();
+  if (t === 'order') { if (modHistory) muatHistory(); else muatMenu(); }
   paparBarTroli();
 }
 document.querySelectorAll('nav.bawah button').forEach(b => b.onclick = () => tukarTabApp(b.dataset.tab));
@@ -328,6 +400,34 @@ $('f-daftar').onsubmit = e => {
   });
 };
 function logKeluar() { simpan.buang('token'); keluarApp(); }
+
+/* ---------- Lupa PIN ---------- */
+$('btn-lupa').onclick = () => {
+  $('f-login').classList.add('tersembunyi'); $('f-lupa').classList.remove('tersembunyi');
+  document.querySelector('#v-auth .tab').classList.add('tersembunyi');
+  $('k-tel').value = $('l-tel').value;
+  api('menu').then(r => { setWhatsapp(r.noWhatsapp); }).catch(() => {});
+};
+$('btn-balik-login').onclick = () => {
+  $('f-lupa').classList.add('tersembunyi'); $('lupa-wa').classList.add('tersembunyi');
+  document.querySelector('#v-auth .tab').classList.remove('tersembunyi'); tukarTab(true);
+};
+$('f-lupa').onsubmit = e => {
+  e.preventDefault();
+  const p1 = $('k-pin1').value, p2 = $('k-pin2').value;
+  if (!/^\d{4,6}$/.test(p1)) { toast('PIN mesti 4 hingga 6 nombor.', true); return; }
+  if (p1 !== p2) { toast('PIN tidak sama. Taip semula.', true); return; }
+  sibuk(e.submitter, async () => {
+    const r = await api('lupaPin', { telefon: $('k-tel').value, pinBaru: p1 });
+    $('k-pin1').value = ''; $('k-pin2').value = '';
+    toast(r.mesej);
+    const w = $('lupa-wa');
+    w.innerHTML = '<div class="nota hijau" style="margin:0">✅ ' + esc(r.mesej) +
+      (NO_WA ? '<br><a href="' + pautanWA('Hai Citrus Lane, saya baru hantar request tukar PIN untuk nombor ' + $('k-tel').value + '. Mohon sahkan, terima kasih!') +
+        '" target="_blank" rel="noopener" style="color:inherit;font-weight:700">💬 WhatsApp owner untuk cepatkan pengesahan ›</a>' : '') + '</div>';
+    w.classList.remove('tersembunyi');
+  });
+};
 
 /* ================= KAD GANJARAN ================= */
 async function muatKad() {
@@ -369,7 +469,9 @@ function paparKad(p) {
     ? p.sejarah.map(s => '<div class="baris"><span>' + esc(s.jenis) + ' · <span class="kecil">' + esc(s.masa) + '</span></span><span class="st-' + esc(s.status) + '">' + esc(label[s.status] || s.status) + '</span></div>').join('')
     : '<p class="kosong">Belum ada rekod. Beli air dan kumpul cop pertama anda!</p>';
 
-  paparOrderSaya(p.orderSaya || []);
+  paparOrderSaya();
+  paparMemo(p.memo || []);
+  setWhatsapp(p.noWhatsapp);
   // Semak status order online setiap 20 saat jika ada order yang belum siap
   clearInterval(pemasa);
   if (aktif.length) pemasa = setInterval(() => { if (!document.hidden) muatKad(); }, 20000);
@@ -399,8 +501,6 @@ async function muatGambar(menu) {
     const r = await api('gambar', { ids: perlu.slice(i, i + 15) });
     r.gambar.forEach(g => cache[g.id] = { v: g.gv, d: g.d });
   }
-  const ids = new Set(menu.map(m => m.id));
-  Object.keys(cache).forEach(k => { if (!ids.has(k)) delete cache[k]; });
   try { localStorage.setItem('gambarMenu', JSON.stringify(cache)); } catch (e) {}
   GAMBAR = {};
   menu.forEach(m => { if (m.gv && cache[m.id]) GAMBAR[m.id] = cache[m.id].d; });
@@ -410,8 +510,8 @@ async function muatMenu() {
   try {
     const r = await api('menu');
     setAirPercuma(r.airPercuma);
-    $('o-tutup').classList.toggle('tersembunyi', r.orderOnline);
-    $('o-borang').classList.toggle('tersembunyi', !r.orderOnline || !$('o-berjaya').classList.contains('tersembunyi'));
+    $('o-tutup').classList.toggle('tersembunyi', r.orderOnline || modHistory);
+    $('o-borang').classList.toggle('tersembunyi', !r.orderOnline || modHistory || !$('o-berjaya').classList.contains('tersembunyi'));
     MENU = r.menu; KATEGORI = r.kategori;
     Object.keys(troli).forEach(id => { if (!MENU.find(m => m.id === id)) delete troli[id]; });
     paparMenu();
@@ -451,7 +551,7 @@ function paparTroli() {
 function paparBarTroli() {
   const cawan = Object.values(troli).reduce((s, n) => s + n, 0);
   const jumlah = MENU.reduce((s, m) => s + (troli[m.id] || 0) * m.harga, 0);
-  $('bar-troli').classList.toggle('tersembunyi', !(tabSemasa === 'order' && cawan > 0 && $('o-berjaya').classList.contains('tersembunyi')));
+  $('bar-troli').classList.toggle('tersembunyi', !(tabSemasa === 'order' && !modHistory && cawan > 0 && $('o-berjaya').classList.contains('tersembunyi')));
   $('bar-kira').textContent = '🛒 ' + cawan + ' cawan';
   $('bar-jumlah').textContent = RM(jumlah) + ' · Lihat order ›';
 }
@@ -474,11 +574,92 @@ function orderLagi() {
   paparMenu(); window.scrollTo(0, 0);
 }
 
-function paparOrderSaya(senarai) {
-  $('o-saya').innerHTML = senarai.length ? '<div class="kad"><h2>Order saya</h2>' + senarai.map(o =>
-    '<div class="baris"><div><b>#' + o.id + '</b> <span class="kecil">· ' + esc(o.masa) + '</span><div class="kecil">' + o.items.map(i => esc(i.qty + '× ' + i.nama)).join(', ') + '</div></div>' +
-    '<div style="text-align:right"><span class="status-order ' + o.status + '">' + (o.status === 'active' ? 'Disediakan' : 'Siap') + '</span><div class="kecil">' + RM(o.jumlah) + '</div></div></div>'
-  ).join('') + '</div>' : '';
+/* ---------- History order ---------- */
+let modHistory = false;
+function paparOrderSaya() { if (modHistory) muatHistory(); }
+
+function tukarHistory(buka) {
+  modHistory = buka;
+  $('o-tajuk').textContent = buka ? 'History order' : 'Menu';
+  $('btn-history').textContent = buka ? '← Kembali ke menu' : '🧾 History';
+  $('o-history').classList.toggle('tersembunyi', !buka);
+  document.querySelectorAll('.o-menu-bhg').forEach(el => el.classList.toggle('tersembunyi', buka));
+  if (!buka) { $('o-berjaya').classList.add('tersembunyi'); muatMenu(); }
+  if (buka) { $('o-berjaya').classList.add('tersembunyi'); muatHistory(); }
+  paparBarTroli(); window.scrollTo(0, 0);
+}
+$('btn-history').onclick = () => tukarHistory(!modHistory);
+
+async function muatHistory() {
+  $('o-history').innerHTML = '<div class="kad kosong">Memuatkan…</div>';
+  try {
+    const r = await api('orderHistory', { token: simpan.get('token') });
+    const label = { online: ['🌐 Online', 'online'], percuma: ['🎁 Percuma', 'percuma'], kaunter: ['🏪 Kaunter', ''] };
+    $('o-history').innerHTML = r.orders.length ? r.orders.map(o => {
+      const l = label[o.sumber] || label.kaunter;
+      return '<div class="kad" style="padding:14px 16px"><div style="display:flex;justify-content:space-between;align-items:center;gap:6px">' +
+        '<b style="font-size:18px">#' + o.id + '</b><span><span class="tag-sumber ' + l[1] + '">' + l[0] + '</span> ' +
+        '<span class="status-order ' + o.status + '">' + (o.status === 'active' ? 'Disediakan' : 'Siap') + '</span></span></div>' +
+        '<div class="kecil">' + esc(o.masa) + ' · ' + o.cup + ' cawan</div>' +
+        '<div style="font-size:14px;margin:6px 0">' + o.items.map(i => esc(i.qty + '× ' + i.nama)).join('<br>') + '</div>' +
+        (o.nota ? '<div class="kecil">📝 ' + esc(o.nota) + '</div>' : '') +
+        '<div style="font-weight:800">' + RM(o.jumlah) + '</div></div>';
+    }).join('') : '<div class="kad tengah"><h2>Belum ada order</h2><p class="kecil">Order online anda dan pembelian di kaunter yang dituntut cop akan dipaparkan di sini.</p></div>';
+  } catch (e) { $('o-history').innerHTML = ''; toast(e.message, true); }
+}
+
+/* ---------- Memo slider ---------- */
+let pemasaMemo = null, memoIndex = 0, memoKunci = '';
+const KELAS_JENIS = { 'Event': ['🎉', 'j-event'], 'Happy Hour': ['🍹', 'j-happy'], 'Menu Baru': ['🆕', 'j-baru'], 'Promosi': ['🏷️', 'j-promo'], 'Pengumuman': ['📢', 'j-umum'] };
+function tarikhPendek(k) { if (!k) return ''; const b = ['Jan','Feb','Mac','Apr','Mei','Jun','Jul','Ogo','Sep','Okt','Nov','Dis']; return Number(k.slice(8)) + ' ' + b[Number(k.slice(5, 7)) - 1]; }
+
+async function paparMemo(senarai) {
+  const kunci = JSON.stringify(senarai.map(m => [m.id, m.tajuk, m.isi, m.gv, m.mula, m.tamat, m.jenis]));
+  if (kunci === memoKunci) return;   // tiada perubahan, jangan ganggu slide
+  memoKunci = kunci;
+  $('memo-wrap').classList.toggle('tersembunyi', !senarai.length);
+  const lukis = () => {
+    $('memo-track').innerHTML = senarai.map(m => {
+      const j = KELAS_JENIS[m.jenis] || KELAS_JENIS.Pengumuman;
+      const tarikh = m.mula && m.tamat ? tarikhPendek(m.mula) + ' – ' + tarikhPendek(m.tamat) : m.tamat ? 'Hingga ' + tarikhPendek(m.tamat) : '';
+      return (GAMBAR[m.id] ? '<article class="memo"><div class="gb"><img src="' + GAMBAR[m.id] + '" alt=""></div>'
+                           : '<article class="memo tanpa-gb ' + j[1] + '"><span class="hiasan-ik" aria-hidden="true">' + j[0] + '</span>') +
+        '<div class="isi"><span class="jenis ' + j[1] + '">' + j[0] + ' ' + esc(m.jenis) + '</span><h3>' + esc(m.tajuk) + '</h3>' +
+        (m.isi ? '<p>' + esc(m.isi) + '</p>' : '') + (tarikh ? '<div class="tarikh">📅 ' + tarikh + '</div>' : '') + '</div></article>';
+    }).join('');
+    $('memo-titik').innerHTML = senarai.length > 1 ? senarai.map((m, i) => '<button type="button" aria-label="Memo ' + (i + 1) + '" data-memo="' + i + '"></button>').join('') : '';
+    memoIndex = 0; tandaTitik();
+  };
+  lukis();
+  clearInterval(pemasaMemo);
+  if (senarai.length > 1) pemasaMemo = setInterval(() => { if (!document.hidden && !memoDisentuh) keMemo(memoIndex + 1); }, 4500);
+  if (senarai.some(m => m.gv)) { try { await muatGambar(senarai); lukis(); } catch (e) {} }
+}
+function keMemo(i) {
+  const t = $('memo-track'), n = t.children.length; if (!n) return;
+  memoIndex = (i + n) % n;
+  t.scrollTo({ left: memoIndex * t.clientWidth, behavior: 'smooth' });
+  tandaTitik();
+}
+function tandaTitik() { document.querySelectorAll('#memo-titik button').forEach((b, i) => b.classList.toggle('aktif', i === memoIndex)); }
+let memoDisentuh = false, tamatSentuh = null;
+$('memo-track').addEventListener('scroll', () => {
+  const t = $('memo-track'); const i = Math.round(t.scrollLeft / Math.max(1, t.clientWidth));
+  if (i !== memoIndex) { memoIndex = i; tandaTitik(); }
+}, { passive: true });
+['touchstart', 'mousedown'].forEach(ev => $('memo-track').addEventListener(ev, () => { memoDisentuh = true; clearTimeout(tamatSentuh); }, { passive: true }));
+['touchend', 'mouseup', 'mouseleave'].forEach(ev => $('memo-track').addEventListener(ev, () => { clearTimeout(tamatSentuh); tamatSentuh = setTimeout(() => memoDisentuh = false, 5000); }, { passive: true }));
+$('memo-titik').addEventListener('click', e => { const b = e.target.closest('[data-memo]'); if (b) keMemo(Number(b.dataset.memo)); });
+
+/* ---------- WhatsApp ---------- */
+let NO_WA = '';
+function pautanWA(mesej) { return 'https://wa.me/' + NO_WA + '?text=' + encodeURIComponent(mesej); }
+function setWhatsapp(no) {
+  NO_WA = String(no || '').replace(/\D/g, '');
+  const b = $('btn-wa');
+  b.classList.toggle('tersembunyi', !NO_WA);
+  if (NO_WA) b.href = pautanWA('Hai Citrus Lane! ');
+  $('btn-wa').parentNode.style.gridTemplateColumns = NO_WA ? '1fr 1fr' : '1fr';
 }
 
 document.addEventListener('click', e => {
